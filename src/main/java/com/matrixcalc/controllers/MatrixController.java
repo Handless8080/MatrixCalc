@@ -1,11 +1,11 @@
 package com.matrixcalc.controllers;
 
 import com.matrixcalc.functions.MatrixFunctions;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -23,14 +23,15 @@ public class MatrixController {
     }
 
     @PostMapping("/")
+    @ResponseBody
     public String showAnswer(
-            @RequestParam(name="number") double[] numbers,
+            /*@RequestParam(name="number") double[] numbers,
             @RequestParam(name="cols") int cols,
             @RequestParam(name="rows") int rows,
             @RequestParam(name="operators") String operator,
-            Model model
+            Model model*/
     ) {
-        double[][][] matrices;
+        /*double[][][] matrices;
         switch (operator) {
             case "Сложение":
             case "Вычитание":
@@ -66,16 +67,17 @@ public class MatrixController {
 
         }
         ArrayList<ArrayList<Double>> list = MatrixFunctions.createAnswer(matrices[0]);
-        model.addAttribute("answer", list);
-        return "main";
+        model.addAttribute("answer", list);*/
+        String result = "main";
+        return result;
     }
 
-    private void out(int[][] arr) {
+    /*private void out(int[][] arr) {
         for (int[] x : arr) {
             for (int y : x) {
                 System.out.print(y + " ");
             }
             System.out.println();
         }
-    }
+    }*/
 }

@@ -1,17 +1,15 @@
 <#macro jquery>
-$("#btn").click(function() {
-	$.ajax({
-		url: "/",
-		cache: false,
-		type: "POST",
-		data: "",
-		success: function(response) {
-			var html = "";
-			$.each(response.answer, function(i) {
-				html = html + response.answer[i];
-			});
-			$('container').html(html);
-		}
+$(document).ready(function() {
+
+	$("#btnSubmit").click(function() {
+
+		var message = "message";
+
+		$.ajax({
+			success: function() {
+				$("#result").html(message);
+			}
+		});
 	});
 });
 </#macro>

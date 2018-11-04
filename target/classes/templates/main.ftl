@@ -4,7 +4,7 @@
 <#import "macros/jquery.ftl" as j>
 
 <@h.head>
-<form method="post">
+<form method="post" id="postForm">
     <div>
         <span>Операция:</span>
         <select id="operators" name="operators" onchange="setOperator()">
@@ -29,7 +29,7 @@
         <select id="cols" name="cols" onchange="createInputTable(document.getElementById('matrCount').value)">
             <@c.count></@c.count>
         </select>
-        <button type="submit" id="btn">Вычислить</button>
+        <button type="submit" id="btnSubmit">Вычислить</button>
     </div>
     <div id="inp0" style="float: left">
         <input type="text" name="number" style="width: 50px">
@@ -55,6 +55,7 @@
     <div id="op8" style="float: left"></div>
     <div id="inp9" style="float: left"></div>
 </form>
+<div id="result"></div>
 <table border="1" id="container">
     <#if answer??>
         <#list answer as row>
@@ -66,9 +67,9 @@
     </#if>
 </table>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     <@s.script></@s.script>
     <@j.jquery></@j.jquery>
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </@h.head>
