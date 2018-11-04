@@ -3,11 +3,14 @@ $(document).ready(function() {
 
 	$("#btnSubmit").click(function() {
 
-		var message = "message";
-
 		$.ajax({
-			success: function() {
-				$("#result").html(message);
+			url: '${pageContext.request.contextPath}/getAnswer',			
+			type: 'POST',
+			async: true,
+			success: function(result) {
+				if (result == "message") {
+					$("result").html(result);	
+				}
 			}
 		});
 	});

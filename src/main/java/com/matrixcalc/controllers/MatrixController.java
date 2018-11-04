@@ -1,8 +1,6 @@
 package com.matrixcalc.controllers;
 
 import com.matrixcalc.functions.MatrixFunctions;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +20,15 @@ public class MatrixController {
         return "greeting";
     }
 
-    @PostMapping("/")
-    @ResponseBody
-    public String showAnswer(
-            /*@RequestParam(name="number") double[] numbers,
+    @PostMapping("getAnswer")
+    public @ResponseBody String showAnswer(
+            @RequestParam(name="number") double[] numbers,
             @RequestParam(name="cols") int cols,
             @RequestParam(name="rows") int rows,
             @RequestParam(name="operators") String operator,
-            Model model*/
+            Model model
     ) {
-        /*double[][][] matrices;
+        double[][][] matrices;
         switch (operator) {
             case "Сложение":
             case "Вычитание":
@@ -67,9 +64,8 @@ public class MatrixController {
 
         }
         ArrayList<ArrayList<Double>> list = MatrixFunctions.createAnswer(matrices[0]);
-        model.addAttribute("answer", list);*/
-        String result = "main";
-        return result;
+        model.addAttribute("answer", list);
+        return "message";
     }
 
     /*private void out(int[][] arr) {
