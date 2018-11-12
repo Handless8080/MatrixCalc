@@ -69,7 +69,7 @@ function createInputTable(tables) {
             for (var j = 0; j < row; j++){
                 var input = document.createElement('input');
                 input.type = "text";
-                input.name = "number";
+                input.id = "number" + t + i + j;
                 input.style.width = "50px";
                 div.appendChild(input);
             }

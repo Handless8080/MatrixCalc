@@ -4,10 +4,11 @@
 <#import "macros/jquery.ftl" as j>
 
 <@h.head>
-<form method="post" id="postForm">
+<form method="post" action="answer">
+    <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div>
         <span>Операция:</span>
-        <select id="operators" name="operators" onchange="setOperator()">
+        <select id="operators" onchange="setOperator()">
             <option>Сложение</option>
             <option>Вычитание</option>
             <option>Умножение</option>
@@ -18,25 +19,25 @@
             <option>Найти ранг</option>
         </select>
         <span>Кол-во матриц:</span>
-        <select id="matrCount" name="matrCount" onchange="setTablesCount()">
+        <select id="matrCount" onchange="setTablesCount()">
             <@c.count>selected</@c.count>
         </select>
         <span>Кол-во столбцов:</span>
-        <select id="rows" name="rows" onchange="createInputTable(document.getElementById('matrCount').value)">
+        <select id="rows" onchange="createInputTable(document.getElementById('matrCount').value)">
             <@c.count></@c.count>
         </select>
         <span>строк:</span>
-        <select id="cols" name="cols" onchange="createInputTable(document.getElementById('matrCount').value)">
+        <select id="cols" onchange="createInputTable(document.getElementById('matrCount').value)">
             <@c.count></@c.count>
         </select>
-        <button type="submit" id="btnSubmit">Вычислить</button>
+        <button type="button" id="btn">Вычислить</button>
     </div>
     <div id="inp0" style="float: left">
-        <input type="text" name="number" style="width: 50px">
+        <input type="text" id="number000" style="width: 50px">
     </div>
     <div id="op0" style="float: left">+</div>
     <div id="inp1" style="float: left">
-        <input type="text" name="number" style="width: 50px">
+        <input type="text" id="number100" style="width: 50px">
     </div>
     <div id="op1" style="float: left"></div>
     <div id="inp2" style="float: left"></div>
@@ -55,7 +56,7 @@
     <div id="op8" style="float: left"></div>
     <div id="inp9" style="float: left"></div>
 </form>
-<div id="result"></div>
+<p id="result"></p>
 <table border="1" id="container">
     <#if answer??>
         <#list answer as row>

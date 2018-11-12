@@ -3,7 +3,7 @@ package com.matrixcalc.functions;
 import java.util.ArrayList;
 
 public class MatrixFunctions {
-    public static ArrayList<ArrayList<Double>> createAnswer(double[][] input) {
+    /*public static ArrayList<ArrayList<Double>> createAnswer(double[][] input) {
         ArrayList<ArrayList<Double>> list = new ArrayList<>();
         for (double[] x : input) {
             ArrayList<Double> buf = new ArrayList<>();
@@ -25,7 +25,7 @@ public class MatrixFunctions {
             }
         }
         return newArray;
-    }
+    }*/
 
     public static double[][] sum(double[][] matr1, double[][] matr2) {
         for (int i = 0; i < matr1.length; i++) {

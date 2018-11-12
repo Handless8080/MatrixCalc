@@ -1,11 +1,10 @@
 package com.matrixcalc.controllers;
 
+import com.matrixcalc.bodies.Matrices;
 import com.matrixcalc.functions.MatrixFunctions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @Controller
 public class MatrixController {
@@ -14,36 +13,23 @@ public class MatrixController {
         return "main";
     }
 
-    @GetMapping("greeting")
+    @GetMapping("/greeting")
     public String greeting(Model model) {
         model.addAttribute("message", "fock u");
         return "greeting";
     }
 
-    @PostMapping("getAnswer")
-    public @ResponseBody String showAnswer(
-            @RequestParam(name="number") double[] numbers,
-            @RequestParam(name="cols") int cols,
-            @RequestParam(name="rows") int rows,
-            @RequestParam(name="operators") String operator,
-            Model model
-    ) {
-        double[][][] matrices;
+    @PostMapping("/answer")
+    public @ResponseBody double showAnswer(@RequestBody Matrices matrices) {
+        double[][][] values = matrices.getNumbers();
+        int cols = matrices.getCols(), rows = matrices.getRows();
+        String operator = matrices.getOperator();
         switch (operator) {
             case "Сложение":
-            case "Вычитание":
-            case "Умножение":
-                matrices = MatrixFunctions.splitArray(numbers, 2, cols, rows);
-                break;
-            default:
-                matrices = MatrixFunctions.splitArray(numbers, 1, cols, rows);
-        }
-        switch (operator) {
-            case "Сложение":
-                matrices[0] = MatrixFunctions.sum(matrices[0], matrices[1]);
+                values[0] = MatrixFunctions.sum(values[0], values[1]);
                 break;
             case "Вычитание":
-                matrices[0] = MatrixFunctions.sub(matrices[0], matrices[1]);
+                values[0] = MatrixFunctions.sub(values[0], values[1]);
                 break;
             case "Умножение":
 
@@ -63,17 +49,13 @@ public class MatrixController {
             case "Найти ранг":
 
         }
-        ArrayList<ArrayList<Double>> list = MatrixFunctions.createAnswer(matrices[0]);
-        model.addAttribute("answer", list);
-        return "message";
-    }
 
-    /*private void out(int[][] arr) {
-        for (int[] x : arr) {
-            for (int y : x) {
-                System.out.print(y + " ");
+        double out = 0;
+        for (double[] x : values[0]) {
+            for (double y : x) {
+                out += y;
             }
-            System.out.println();
         }
-    }*/
+        return out;
+    }
 }
