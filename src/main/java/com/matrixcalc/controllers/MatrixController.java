@@ -15,24 +15,23 @@ public class MatrixController {
 
     @GetMapping("/greeting")
     public String greeting(Model model) {
-        model.addAttribute("message", "fock u");
+        model.addAttribute("message", "message");
         return "greeting";
     }
 
     @PostMapping("/answer")
-    public @ResponseBody double showAnswer(@RequestBody Matrices matrices) {
+    public @ResponseBody double[][] showAnswer(@RequestBody Matrices matrices) {
         double[][][] values = matrices.getNumbers();
-        int cols = matrices.getCols(), rows = matrices.getRows();
-        String operator = matrices.getOperator();
-        switch (operator) {
+
+        switch (matrices.getOperator()) {
             case "Сложение":
-                values[0] = MatrixFunctions.sum(values[0], values[1]);
+                values[0] = MatrixFunctions.sum(values);
                 break;
             case "Вычитание":
-                values[0] = MatrixFunctions.sub(values[0], values[1]);
+                values[0] = MatrixFunctions.sub(values);
                 break;
             case "Умножение":
-
+                values[0] = MatrixFunctions.mul(values);
                 break;
             case "Возведение в степень":
 
@@ -49,13 +48,6 @@ public class MatrixController {
             case "Найти ранг":
 
         }
-
-        double out = 0;
-        for (double[] x : values[0]) {
-            for (double y : x) {
-                out += y;
-            }
-        }
-        return out;
+        return values[0];
     }
 }

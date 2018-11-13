@@ -56,17 +56,7 @@
     <div id="op8" style="float: left"></div>
     <div id="inp9" style="float: left"></div>
 </form>
-<p id="result"></p>
-<table border="1" id="container">
-    <#if answer??>
-        <#list answer as row>
-        <tr>
-            <#list row as cell>
-                <td>${cell}</td>
-            </#list>
-        </#list>
-    </#if>
-</table>
+<table border="1" id="result"></table>
 
 <script>
     <@s.script></@s.script>
