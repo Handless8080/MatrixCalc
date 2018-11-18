@@ -4,7 +4,7 @@ public class MatrixFunctions {
 
     public static double[][] sum(double[][]... matr) {
         for (int t = 1; t < matr.length; t++) {
-            
+
             for (int i = 0; i < matr[t].length; i++) {
                 for (int j = 0; j < matr[t][i].length; j++) {
                     matr[0][i][j] += matr[t][i][j];

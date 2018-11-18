@@ -65,11 +65,13 @@ function createInputTable(tables) {
         }
         for (var i = 0; i < col; i++) {
             var div = document.createElement('div');
+            div.classList.add('row');
             d.appendChild(div);
             for (var j = 0; j < row; j++){
                 var input = document.createElement('input');
                 input.type = "text";
                 input.id = "number" + t + i + j;
+                input.classList.add('col');
                 input.style.width = "50px";
                 div.appendChild(input);
             }
