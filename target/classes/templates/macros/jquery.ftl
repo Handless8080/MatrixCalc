@@ -5,7 +5,7 @@ $(document).ready(function() {
 		var csrf = document.getElementById('csrf').value;
 
 		var numbers = getNumbers();
-    	var operator = $('#operators').val();
+    	var operator = document.getElementById('operators').innerHTML;
 
 		$.ajax({
 			type: 'POST',
@@ -40,7 +40,7 @@ function getNumbers() {
 
 	var col = $('#cols').val();
     var row = $('#rows').val();
-    var tables = $('#matrCount').val();
+    var tables = $('#matr-count').val();
 
 	for (var t = 0; t < tables; t++) {
 		numbers[t] = [];

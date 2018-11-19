@@ -1,4 +1,4 @@
-<#macro head>
+<#macro head font1 font2>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,15 +15,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
-            <a class="nav-link nav-item" href="#" style="color: white; font-size: 14pt; font-weight: bold">Калькулятор</a>
-            <a class="nav-link nav-item" href="#" style="color: white; font-size: 14pt">Форум</a>
+            <a class="nav-link nav-item text-white" href="/" style="font-size: 14pt; font-weight: ${font1}">Калькулятор</a>
+            <a class="nav-link nav-item text-white" href="#" style="font-size: 14pt; font-weight: ${font2}">Форум</a>
         </div>
         <div class="navbar-nav ml-auto">
             <a class="nav-link nav-item" href="#" style="color: lightblue; font-size: 12pt">Авторизация</a>
         </div>
     </div>
 </nav>
-<div style="margin-left: 5px">
+<div class="container mt-5 ml-5">
     <#nested>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
