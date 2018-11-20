@@ -36,26 +36,63 @@
             </div>
         </div>
         <button type="button" id="btn" class="btn btn-success btn-sm ml-3" style="height: 31px">Вычислить</button>
-        <div class="col-mx-5">
-            <span>Кол-во столбцов:</span>
-            <select id="rows" onchange="createInputTable(document.getElementById('matr-count').value)">
-                <@c.count></@c.count>
-            </select>
+        <p>
+            <a class="btn btn-success btn-sm ml-3" data-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse">
+                Размеры матриц
+            </a>
+        </p>
+    </div>
+    <div class="row">
+        <div class="collapse" id="collapse">
+            <div class="card card-body">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr></tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="col">Кол-во столбцов</th>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" id="btn-cols-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
+                                </div>
+                                <input type="text" id="cols" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
+                                <div class="input-group-append">
+                                    <button type="button" id="btn-cols-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Кол-во строк</th>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" id="btn-rows-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
+                                </div>
+                                <input type="text" id="rows" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
+                                <div class="input-group-append">
+                                    <button type="button" id="btn-rows-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-mx-5">
-            <span>строк:</span>
-            <select id="cols" onchange="createInputTable(document.getElementById('matr-count').value)">
-                <@c.count></@c.count>
-            </select>
-        </div>
-
     </div>
     <div id="inp0" class="d-inline-flex flex-column p-1">
-        <input type="text" id="number000" style="width: 50px">
+        <div id="inp00" class="d-inline-flex flex-row">
+            <input type="text" id="number000" style="width: 50px">
+        </div>
     </div>
     <div id="op0" class="d-inline-flex flex-column p-1">+</div>
     <div id="inp1" class="d-inline-flex flex-column p-1">
-        <input type="text" id="number100" style="width: 50px">
+        <div id="inp10" class="d-inline-flex flex-row">
+            <input type="text" id="number100" style="width: 50px">
+        </div>
     </div>
     <div id="op1" class="d-inline-flex flex-column p-1"></div>
     <div id="inp2" class="d-inline-flex flex-column p-1"></div>
