@@ -70,13 +70,14 @@ function createTable() {
         document.getElementById('op' + (parseInt(matrCount, 10) - 1)).innerHTML = getOperator();
 
         var d = document.getElementById('inp' + matrCount)
-        for (var i = 0; i < col; i++) {
+        for (var i = 0; i < row; i++) {
             var div = document.createElement('div');
             div.classList.add('d-inline-flex');
             div.classList.add('flex-row');
+            div.id = "inp" + matrCount + i;
             d.appendChild(div);
     
-            for (var j = 0; j < row; j++) {
+            for (var j = 0; j < col; j++) {
                 var input = document.createElement('input');
                 input.type = "text";
                 input.id = "number" + matrCount + i + j;

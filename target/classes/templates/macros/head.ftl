@@ -1,4 +1,4 @@
-<#macro head font1 font2>
+<#macro head header font1 font2 flag>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,21 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: seagreen; margin-bottom: 5px">
-    <a class="navbar-brand" style="font-size: 22pt; font-weight: bold"><span style="color: darkviolet">Matrix</span><span style="color: black">Calculator</span></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbar">
-        <div class="navbar-nav">
-            <a class="nav-link nav-item text-white" href="/" style="font-size: 14pt; font-weight: ${font1}">Калькулятор</a>
-            <a class="nav-link nav-item text-white" href="#" style="font-size: 14pt; font-weight: ${font2}">Форум</a>
-        </div>
-        <div class="navbar-nav ml-auto">
-            <a class="nav-link nav-item" href="#" style="color: lightblue; font-size: 12pt">Авторизация</a>
-        </div>
-    </div>
-</nav>
+<#if flag="true">
+    <#include "navbar.ftl">
+</#if>
 <div class="container mt-5 ml-5">
     <#nested>
 </div>
