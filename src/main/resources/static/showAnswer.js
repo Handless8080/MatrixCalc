@@ -1,4 +1,3 @@
-<#macro jquery>
 $(document).ready(function() {
 
 	$("#btn").click(function() {
@@ -9,13 +8,13 @@ $(document).ready(function() {
 
 		$.ajax({
 			type: 'POST',
-			url: '/answer',	
+			url: '/answer',
 			dataType: 'json',
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify({
 				'numbers': numbers,
 				'operator': operator
-			}),			
+			}),
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader('X-CSRF-Token', csrf)
 			},
@@ -44,13 +43,12 @@ function getNumbers() {
 
 	for (var t = 0; t < tables; t++) {
 		numbers[t] = [];
-		for (var i = 0; i < col; i++) {
+		for (var i = 0; i < row; i++) {
 			numbers[t][i] = [];
-			for (var j = 0; j < row; j++) {
+			for (var j = 0; j < col; j++) {
 				numbers[t][i][j] = $('#number' + t + i + j).val();
 			}
 		}
 	}
 	return numbers;
 }
-</#macro>

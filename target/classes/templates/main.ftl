@@ -1,8 +1,6 @@
 <#import "macros/head.ftl" as h>
-<#import "macros/script.ftl" as s>
-<#import "macros/jquery.ftl" as j>
 
-<@h.head header="Калькулятор" font1="bold" font2="normal" flag="true">
+<@h.head flag="true" header="Калькулятор" font1="bold" font2="normal">
 <form method="post" action="answer">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="row">
@@ -47,7 +45,7 @@
                 <div style="overflow-x: auto; max-width: 607px">
                     <table class="table table-bordered table-sm">
                         <thead>
-                        <tr></tr>
+                        <tr id="header"></tr>
                         </thead>
                         <tbody>
                         <tr>
@@ -121,8 +119,6 @@
     </div>
 </form>
 <table class="table table-bordered table-sm" id="result"></table>
-<script>
-    <@s.script></@s.script>
-    <@j.jquery></@j.jquery>
-</script>
+<script src="static/scripts.js"></script>
+<script src="static/showAnswer.js"></script>
 </@h.head>

@@ -1,4 +1,3 @@
-<#macro script>
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('1').addEventListener('click', setOperator);
     document.getElementById('2').addEventListener('click', setOperator);
@@ -51,9 +50,21 @@ function setOperator() {
     var operator = this.innerHTML;
     var tables = document.getElementById('matr-count').value;
     var select = document.getElementById('operators');
+    var header = document.getElementById('header');
     select.innerHTML = operator;
     var char = getOperator();
-    
+
+    if (char == "*") {
+        var th = document.createElement('th');
+        th.scope = "col";
+        th.innerHTML = "Номер матрицы";
+        header.appendChild(th);
+    } else {
+        while (header.firstChild) {
+            header.removeChild(header.firstChild);
+        }
+    }
+
     for (var i = 0; i < tables - 1; i++) {
         var op = document.getElementById('op' + i);
         op.innerHTML = char;
@@ -70,14 +81,14 @@ function createTable() {
         document.getElementById('op' + (parseInt(matrCount, 10) - 1)).innerHTML = getOperator();
 
         var d = document.getElementById('inp' + matrCount)
-        for (var i = 0; i < row; i++) {
+        for (var i = 0; i < col; i++) {
             var div = document.createElement('div');
             div.classList.add('d-inline-flex');
             div.classList.add('flex-row');
             div.id = "inp" + matrCount + i;
             d.appendChild(div);
-    
-            for (var j = 0; j < col; j++) {
+
+            for (var j = 0; j < row; j++) {
                 var input = document.createElement('input');
                 input.type = "text";
                 input.id = "number" + matrCount + i + j;
@@ -119,7 +130,7 @@ function createRow() {
             div.classList.add('d-inline-flex');
             div.classList.add('flex-row');
             d.appendChild(div);
-    
+
             for (i = 0; i < col; i++) {
                 var input = document.createElement('input');
                 input.type = "text";
@@ -191,4 +202,3 @@ function deleteColumn() {
         }
     }
 }
-</#macro>

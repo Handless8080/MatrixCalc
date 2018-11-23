@@ -1,4 +1,3 @@
-<#macro script>
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('1').addEventListener('click', setOperator);
     document.getElementById('2').addEventListener('click', setOperator);
@@ -51,9 +50,26 @@ function setOperator() {
     var operator = this.innerHTML;
     var tables = document.getElementById('matr-count').value;
     var select = document.getElementById('operators');
+    var header = document.getElementById('header');
     select.innerHTML = operator;
     var char = getOperator();
-    
+
+    if (char == "*") {
+        var th = document.createElement('th');
+        th.scope = "col";
+        th.innerHTML = "Номер матрицы";
+        header.appendChild(th);
+
+        var cols = document
+        for (var i = 0; i < tables; i++) {
+
+        }
+    } else {
+        while (header.firstChild) {
+            header.removeChild(header.firstChild);
+        }
+    }
+
     for (var i = 0; i < tables - 1; i++) {
         var op = document.getElementById('op' + i);
         op.innerHTML = char;
@@ -61,8 +77,8 @@ function setOperator() {
 };
 
 function createTable() {
-    var col = document.getElementById('cols').value;
-    var row = document.getElementById('rows').value;
+    var col = document.getElementById('col0').value;
+    var row = document.getElementById('row0').value;
     var matrCount = document.getElementById('matr-count').value;
 
     if (matrCount < 10) {
@@ -70,14 +86,14 @@ function createTable() {
         document.getElementById('op' + (parseInt(matrCount, 10) - 1)).innerHTML = getOperator();
 
         var d = document.getElementById('inp' + matrCount)
-        for (var i = 0; i < row; i++) {
+        for (var i = 0; i < col; i++) {
             var div = document.createElement('div');
             div.classList.add('d-inline-flex');
             div.classList.add('flex-row');
             div.id = "inp" + matrCount + i;
             d.appendChild(div);
-    
-            for (var j = 0; j < col; j++) {
+
+            for (var j = 0; j < row; j++) {
                 var input = document.createElement('input');
                 input.type = "text";
                 input.id = "number" + matrCount + i + j;
@@ -103,9 +119,9 @@ function deleteTable() {
 }
 
 function createRow() {
-    var rowCount = document.getElementById('rows');
+    var rowCount = document.getElementById('row0');
 
-    var col = document.getElementById('cols').value;
+    var col = document.getElementById('col0').value;
     var row = rowCount.value;
     var matrCount = document.getElementById('matr-count').value;
 
@@ -119,7 +135,7 @@ function createRow() {
             div.classList.add('d-inline-flex');
             div.classList.add('flex-row');
             d.appendChild(div);
-    
+
             for (i = 0; i < col; i++) {
                 var input = document.createElement('input');
                 input.type = "text";
@@ -132,7 +148,7 @@ function createRow() {
 }
 
 function deleteRow() {
-    var rowCount = document.getElementById('rows');
+    var rowCount = document.getElementById('row0');
 
     var matrCount = document.getElementById('matr-count').value;
 
@@ -147,10 +163,10 @@ function deleteRow() {
 }
 
 function createColumn() {
-    var colCount = document.getElementById('cols');
+    var colCount = document.getElementById('col0');
 
-    var col = document.getElementById('cols').value;
-    var row = document.getElementById('rows').value;
+    var col = colCount.value;
+    var row = document.getElementById('row0').value;
     var matrCount = document.getElementById('matr-count').value;
 
     if (col < 10) {
@@ -172,10 +188,10 @@ function createColumn() {
 }
 
 function deleteColumn() {
-    var colCount = document.getElementById('cols');
+    var colCount = document.getElementById('col0');
 
-    var col = document.getElementById('cols').value;
-    var row = document.getElementById('rows').value;
+    var col = colCount.value;
+    var row = document.getElementById('row0').value;
     var matrCount = document.getElementById('matr-count').value;
 
     if (col > 1) {
@@ -191,4 +207,3 @@ function deleteColumn() {
         }
     }
 }
-</#macro>

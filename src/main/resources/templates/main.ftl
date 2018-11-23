@@ -1,8 +1,6 @@
 <#import "macros/head.ftl" as h>
-<#import "macros/script.ftl" as s>
-<#import "macros/jquery.ftl" as j>
 
-<@h.head header="Калькулятор" font1="bold" font2="normal" flag="true">
+<@h.head flag="true" header="Калькулятор" font1="bold" font2="normal">
 <form method="post" action="answer">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="row">
@@ -47,10 +45,10 @@
                 <div style="overflow-x: auto; max-width: 607px">
                     <table class="table table-bordered table-sm">
                         <thead>
-                        <tr></tr>
+                        <tr id="header"></tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr id="cols">
                             <th scope="col">
                                 <div style="min-width: 140px">
                                     Кол-во столбцов
@@ -61,21 +59,21 @@
                                     <div class="input-group-prepend">
                                         <button type="button" id="btn-cols-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
                                     </div>
-                                    <input type="text" id="cols" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
+                                    <input type="text" id="col0" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
                                     <div class="input-group-append">
                                         <button type="button" id="btn-cols-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="rows">
                             <th scope="col">Кол-во строк</th>
                             <td>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <button type="button" id="btn-rows-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
                                     </div>
-                                    <input type="text" id="rows" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
+                                    <input type="text" id="row0" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
                                     <div class="input-group-append">
                                         <button type="button" id="btn-rows-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
                                     </div>
@@ -121,8 +119,6 @@
     </div>
 </form>
 <table class="table table-bordered table-sm" id="result"></table>
-<script>
-    <@s.script></@s.script>
-    <@j.jquery></@j.jquery>
-</script>
+<script src="static/scripts.js"></script>
+<script src="static/showAnswer.js"></script>
 </@h.head>
