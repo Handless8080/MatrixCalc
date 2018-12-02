@@ -48,7 +48,7 @@
                         <tr id="header"></tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr id="cols">
                             <th scope="col">
                                 <div style="min-width: 140px">
                                     Кол-во столбцов
@@ -57,25 +57,25 @@
                             <td>
                                 <div class="input-group" style="min-width: 91px">
                                     <div class="input-group-prepend">
-                                        <button type="button" id="btn-cols-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
+                                        <button type="button" id="btn-cols-count-less0" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
                                     </div>
-                                    <input type="text" id="cols" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
+                                    <input type="text" id="col0" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
                                     <div class="input-group-append">
-                                        <button type="button" id="btn-cols-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
+                                        <button type="button" id="btn-cols-count-more0" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="rows">
                             <th scope="col">Кол-во строк</th>
                             <td>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <button type="button" id="btn-rows-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
+                                        <button type="button" id="btn-rows-count-less0" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
                                     </div>
-                                    <input type="text" id="rows" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
+                                    <input type="text" id="row0" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="1">
                                     <div class="input-group-append">
-                                        <button type="button" id="btn-rows-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
+                                        <button type="button" id="btn-rows-count-more0" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
                                     </div>
                                 </div>
                             </td>

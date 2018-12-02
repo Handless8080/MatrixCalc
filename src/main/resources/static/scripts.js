@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-matr-count-more').addEventListener('click', createTable);
     document.getElementById('btn-matr-count-less').addEventListener('click', deleteTable);
 
-    document.getElementById('btn-rows-count-more').addEventListener('click', createRow);
-    document.getElementById('btn-rows-count-less').addEventListener('click', deleteRow);
+    document.getElementById('btn-rows-count-more0').addEventListener('click', createRow);
+    document.getElementById('btn-rows-count-less0').addEventListener('click', deleteRow);
 
-    document.getElementById('btn-cols-count-more').addEventListener('click', createColumn);
-    document.getElementById('btn-cols-count-less').addEventListener('click', deleteColumn);
+    document.getElementById('btn-cols-count-more0').addEventListener('click', createColumn);
+    document.getElementById('btn-cols-count-less0').addEventListener('click', deleteColumn);
 });
 
 function getOperator() {
@@ -46,11 +46,63 @@ function getOperator() {
     return char;
 }
 
+function createSizeInput(id, i) {
+    var tr = document.getElementById(id + 's');
+
+    var select = document.createElement('td');
+    var div = document.createElement('div');
+    div.classList.add('input-group');
+    div.style.minWidth = "91px";
+
+    var prependDiv = document.createElement('div');
+    prependDiv.classList.add('input-group-prepend');
+
+    var btnLess = document.createElement('button');
+    btnLess.type = "button";
+    btnLess.id = "btn-" + id + "s-count-less" + i;
+    btnLess.classList.add('btn');
+    btnLess.classList.add('btn-outline-success');
+    btnLess.classList.add('btn-sm');
+    btnLess.style.width = "31px";
+    btnLess.innerHTML = "-";
+    prependDiv.appendChild(btnLess);
+    div.appendChild(prependDiv);
+
+    var input = document.createElement('input');
+    input.type = "text";
+    input.id = id + i;
+    input.setAttribute("readonly", "true");
+    input.style.width = "31px";
+    input.style.height = "31px";
+    input.classList.add('form-control');
+    input.classList.add('p-1');
+    input.classList.add('pl-2');
+    div.appendChild(input);
+
+    var appendDiv = document.createElement('div');
+    appendDiv.classList.add('input-group-append');
+
+    var btnMore = document.createElement('button');
+    btnMore.type = "button";
+    btnMore.id = "btn-" + id + "s-count-more" + i;
+    btnMore.classList.add('btn');
+    btnMore.classList.add('btn-outline-success');
+    btnMore.classList.add('btn-sm');
+    btnMore.style.width = "31px";
+    btnMore.innerHTML = "+";
+    appendDiv.appendChild(btnMore);
+    div.appendChild(appendDiv);
+
+    select.appendChild(div);
+    tr.appendChild(select);
+}
+
 function setOperator() {
     var operator = this.innerHTML;
     var tables = document.getElementById('matr-count').value;
     var select = document.getElementById('operators');
     var header = document.getElementById('header');
+
     select.innerHTML = operator;
     var char = getOperator();
 
@@ -60,9 +112,19 @@ function setOperator() {
         th.innerHTML = "Номер матрицы";
         header.appendChild(th);
 
-        var cols = document
-        for (var i = 0; i < tables; i++) {
+        var number1 = document.createElement('th');
+        number1.scope = "col";
+        number1.innerHTML = "1";
+        header.appendChild(number1);
 
+        for (var i = 2; i <= tables; i++) {
+            var number = document.createElement('th');
+            number.scope = "col";
+            number.innerHTML = i;
+            header.appendChild(number);
+
+            createSizeInput('col', i);
+            createSizeInput('row', i);
         }
     } else {
         while (header.firstChild) {
