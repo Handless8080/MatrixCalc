@@ -28,7 +28,7 @@ public class MatrixFunctions {
 
     public static double[][] mul(double[][]... matr) {
         for (int t = 1; t < matr.length; t++) {
-            matr[0] = mulTwoMatrices(matr[t - 1], matr[t]);
+            matr[0] = mulTwoMatrices(matr[0], matr[t]);
         }
         return matr[0];
     }
@@ -37,7 +37,7 @@ public class MatrixFunctions {
         double[][] result = new double[matr1.length][matr2[0].length];
 
         for (int i = 0; i < matr1.length; i++) {
-            for (int j = 0; j < matr2.length; j++) {
+            for (int j = 0; j < matr2[0].length; j++) {
                 double temp = 0;
                 for (int l = 0; l < matr2.length; l++) {
                     temp += matr1[i][l] * matr2[l][j];

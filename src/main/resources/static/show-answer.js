@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	$("#btn").click(function() {
-		var csrf = document.getElementById('csrf').value;
+		var csrf = $("#csrf").val();
 
 		var numbers = getNumbers();
     	var operator = document.getElementById('operators').innerHTML;
@@ -36,13 +36,21 @@ $(document).ready(function() {
 
 function getNumbers() {
 	var numbers = [];
+	var col, row, flag = true;
 
-	var col = $('#cols').val();
-    var row = $('#rows').val();
+    if ($('#operators').val() == "Сложение" || $('#operators').val() == "Вычитание") {
+        col = $('#col0').val();
+        row = $('#row0').val();
+        flag = false;
+    }
     var tables = $('#matr-count').val();
 
 	for (var t = 0; t < tables; t++) {
 		numbers[t] = [];
+		if (flag) {
+		    col = $('#col' + t).val();
+		    row = $('#row' + t).val();
+		}
 		for (var i = 0; i < row; i++) {
 			numbers[t][i] = [];
 			for (var j = 0; j < col; j++) {
