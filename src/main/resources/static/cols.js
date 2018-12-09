@@ -1,10 +1,10 @@
 function createColumns() {
-    var id = this.id;
-    var index = id[parseInt(id.length, 10) - 1];
-    var colCount = document.getElementById('col' + index);
+    var id = this.id,
+        index = id[parseInt(id.length, 10) - 1],
+        colCount = document.getElementById('col' + index);
 
-    var col = colCount.value;
-    var matrCount = document.getElementById('matr-count').value;
+    var col = colCount.value,
+        matrCount = document.getElementById('matr-count').value;
 
     if (col < 10) {
         colCount.value++;
@@ -39,12 +39,12 @@ function createColumns() {
 }
 
 function deleteColumns() {
-    var id = this.id;
-    var index = id[parseInt(id.length, 10) - 1];
-    var colCount = document.getElementById('col' + index);
+    var id = this.id,
+        index = id[parseInt(id.length, 10) - 1],
+        colCount = document.getElementById('col' + index);
 
-    var col = colCount.value;
-    var matrCount = document.getElementById('matr-count').value;
+    var col = colCount.value,
+        matrCount = document.getElementById('matr-count').value;
 
     if (col > 1) {
         colCount.value--;
@@ -79,19 +79,19 @@ function deleteColumns() {
 }
 
 function createColumn(t) {
-    var row = getSize(t, 'row');
-    var col = getSize(t, 'col');
+    var row = getSize(t, 'row'),
+        col = getSize(t, 'col');
 
     for (var i = 0; i < row; i++) {
-        var div = document.getElementById('inp' + t + i);
-        var input = createInput(t, i, parseInt(col, 10) - 1);
+        var div = document.getElementById('inp' + t + i),
+            input = createInput(t, i, parseInt(col, 10) - 1);
         div.appendChild(input);
     }
 }
 
 function deleteColumn(t) {
-    var row = getSize(t, 'row');
-    var col = getSize(t, 'col');
+    var row = getSize(t, 'row'),
+        col = getSize(t, 'col');
 
     for (var i = 0; i < row; i++) {
         var input = document.getElementById('number' + t + i + parseInt(col, 10));

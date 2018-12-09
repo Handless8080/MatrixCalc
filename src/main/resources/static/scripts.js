@@ -27,11 +27,9 @@ function createInput(t, i, j) {
 }
 
 function getSize(t, dimension) {
-    var value;
     if (getOperator() == "+" || getOperator() == "-") {
-        value = document.getElementById(dimension + '0').value;
+        return document.getElementById(dimension + '0').value;
     } else {
-        value = document.getElementById(dimension + t).value;
+        return document.getElementById(dimension + t).value;
     }
-    return value;
 }

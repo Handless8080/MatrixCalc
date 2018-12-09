@@ -1,10 +1,10 @@
 function createRows() {
-    var id = this.id;
-    var index = id[parseInt(id.length, 10) - 1];
-    var rowCount = document.getElementById('row' + index);
+    var id = this.id,
+        index = id[parseInt(id.length, 10) - 1],
+        rowCount = document.getElementById('row' + index);
 
-    var row = rowCount.value;
-    var matrCount = document.getElementById('matr-count').value;
+    var row = rowCount.value,
+        matrCount = document.getElementById('matr-count').value;
 
     if (row < 10) {
         rowCount.value++;
@@ -31,9 +31,9 @@ function createRows() {
 }
 
 function deleteRows() {
-    var id = this.id;
-    var index = id[parseInt(id.length, 10) - 1];
-    var rowCount = document.getElementById('row' + index);
+    var id = this.id,
+        index = id[parseInt(id.length, 10) - 1],
+        rowCount = document.getElementById('row' + index);
 
     var matrCount = document.getElementById('matr-count').value;
 
@@ -62,11 +62,12 @@ function deleteRows() {
 }
 
 function createRow(t) {
-    var row = getSize(t, 'row');
-    var col = getSize(t, 'col');
+    var row = getSize(t, 'row'),
+        col = getSize(t, 'col');
 
-    var d = document.getElementById('inp' + t)
-    var div = document.createElement('div');
+    var d = document.getElementById('inp' + t),
+        div = document.createElement('div');
+
     div.id = "inp" + t + (parseInt(row, 10) - 1);
     div.classList.add('d-inline-flex');
     div.classList.add('flex-row');
@@ -79,8 +80,8 @@ function createRow(t) {
 }
 
 function deleteRow(t) {
-    var row = getSize(t, 'row');
+    var row = getSize(t, 'row'),
+        div = document.getElementById('inp' + t + parseInt(row, 10));
 
-    var div = document.getElementById('inp' + t + parseInt(row, 10));
     div.remove();
 }

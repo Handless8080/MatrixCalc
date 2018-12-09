@@ -1,6 +1,6 @@
 <#import "macros/head.ftl" as h>
 <#import "macros/div.ftl" as d>
-<#import "macros/size-group.ftl" as i>
+<#import "macros/size-group.ftl" as s>
 
 <@h.head flag="true" header="Калькулятор" font1="bold" font2="normal">
 <form method="post" action="answer">
@@ -43,10 +43,13 @@
                 </thead>
                 <tbody>
                 <tr id="cols">
-                    <@i.input header="Кол-во столбцов" dimension="col"></@i.input>
+                    <@s.input header="Кол-во столбцов" dimension="col"></@s.input>
                 </tr>
                 <tr id="rows">
-                    <@i.input header="Кол-во строк" dimension="row"></@i.input>
+                    <@s.input header="Кол-во строк" dimension="row"></@s.input>
+                </tr>
+                <tr id="params" style="display: none">
+                    <th scope="col">Степень</th>
                 </tr>
                 </tbody>
             </table>
@@ -60,13 +63,21 @@
             <#include "macros/input-table.ftl">
         </div>
     </div>
+    <div class="row mt-3">
+        <button type="button" id="btn" class="btn btn-sm btn-success">Вычислить</button>
+    </div>
 </form>
-<table class="table table-bordered table-sm" id="result"></table>
-<script src="static/show-answer.js"></script>
+<div class="row mt-3">
+    <div style="overflow-x: auto" id="answer">
+        <table class="table table-bordered table-sm" id="result"></table>
+    </div>
+</div>
+
 <script src="static/operator.js"></script>
 <script src="static/table.js"></script>
 <script src="static/rows.js"></script>
 <script src="static/cols.js"></script>
 <script src="static/size-group.js"></script>
 <script src="static/scripts.js"></script>
+<script src="static/show-answer.js"></script>
 </@h.head>

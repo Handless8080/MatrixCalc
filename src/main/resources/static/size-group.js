@@ -2,7 +2,16 @@ function createSizeInput(id, i) {
     var tr = document.getElementById(id + 's');
 
     var select = document.createElement('td');
-    select.id = id == "col" ? "ctd" + i : "rtd" + i;
+    switch (id) {
+        case "col":
+            select.id = "ctd" + i;
+            break;
+        case "row":
+            select.id = "rtd" + i;
+            break;
+        case "param":
+            select.id = "ptd" + i;
+    }
 
     var div = document.createElement('div');
     div.classList.add('input-group');
@@ -39,13 +48,13 @@ function createSizeInput(id, i) {
     if (id == "col") {
         btnLess.addEventListener('click', deleteColumns);
         btnMore.addEventListener('click', createColumns);
-    } else {
+        input.value = document.getElementById('col' + (parseInt(i, 10) - 1)).value;
+    } else if (id == "row") {
         btnLess.addEventListener('click', deleteRows);
         btnMore.addEventListener('click', createRows);
+        input.value = document.getElementById('col' + (parseInt(i, 10) - 1)).value;
     }
-
-    var col = document.getElementById('col' + (parseInt(i, 10) - 1)).value;
-    input.value = col;
+    input.value = 1;
 }
 
 function createButton(id, i, type, operator) {

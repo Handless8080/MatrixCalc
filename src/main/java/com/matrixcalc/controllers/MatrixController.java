@@ -19,8 +19,8 @@ public class MatrixController {
         return "greeting";
     }
 
-    @PostMapping("/answer")
-    public @ResponseBody double[][] showAnswer(@RequestBody Matrices matrices) {
+    @PostMapping("/sum-sub-mul")
+    public @ResponseBody double[][] showAnswer1(@RequestBody Matrices matrices) {
         double[][][] values = matrices.getNumbers();
 
         switch (matrices.getOperator()) {
@@ -32,22 +32,22 @@ public class MatrixController {
                 break;
             case "Умножение":
                 values[0] = MatrixFunctions.mul(values);
-                break;
-            case "Возведение в степень":
-
-                break;
-            case "Найти определитель":
-
-                break;
-            case "Найти обратную":
-
-                break;
-            case "Транспонировать":
-
-                break;
-            case "Найти ранг":
-
         }
         return values[0];
+    }
+
+    @PostMapping("/pow-rev-tran")
+    public @ResponseBody double[][][] showAnswer2(@RequestBody Matrices matrices) {
+        double[][][] values = matrices.getNumbers();
+
+        switch (matrices.getOperator()) {
+            case "Воззведение в степень":
+                break;
+            case "Найти обратную":
+                break;
+            case "Транспонировать":
+                values = MatrixFunctions.transpose(values);
+        }
+        return values;
     }
 }

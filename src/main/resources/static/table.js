@@ -1,11 +1,11 @@
 function createTable() {
     var matrCount = document.getElementById('matr-count').value;
     if (getOperator() != "+" && getOperator() != "-") {
-        var col = document.getElementById('col' + (parseInt(matrCount, 10) - 1)).value;
-        var row = 1;
+        var col = document.getElementById('col' + (parseInt(matrCount, 10) - 1)).value,
+            row = 1;
     } else {
-        var col = document.getElementById('col0').value;
-        var row = document.getElementById('row0').value;
+        var col = document.getElementById('col0').value,
+            row = document.getElementById('row0').value;
     }
 
     if (matrCount < 10) {
@@ -16,18 +16,23 @@ function createTable() {
             var number = createMatrixHeader(parseInt(matrCount, 10) + 1);
             header.appendChild(number);
         }
+        if (getOperator() == "^") {
+            createSizeInput('param', parseInt(matrCount, 10) + 1);
+        }
+
         document.getElementById('matr-count').value++;
-        document.getElementById('op' + (parseInt(matrCount, 10) - 1)).innerHTML = getOperator();
+        var char = getOperator();
+        document.getElementById('op' + (parseInt(matrCount, 10) - 1)).innerHTML = ((char == "+" || char == "-" || char == "*") ? char : "");
 
         var d = document.getElementById('inp' + matrCount)
-        for (var i = 0; i < col; i++) {
+        for (var i = 0; i < row; i++) {
             var div = document.createElement('div');
             div.classList.add('d-inline-flex');
             div.classList.add('flex-row');
             div.id = "inp" + matrCount + i;
             d.appendChild(div);
 
-            for (var j = 0; j < row; j++) {
+            for (var j = 0; j < col; j++) {
                 var input = createInput(matrCount, i, j);
                 div.appendChild(input);
             }
@@ -37,10 +42,10 @@ function createTable() {
 }
 
 function deleteTable() {
-    var matrCount = document.getElementById('matr-count').value;
-    var header = document.getElementById('header');
-    var cols = document.getElementById('cols');
-    var rows = document.getElementById('rows');
+    var matrCount = document.getElementById('matr-count').value,
+        header = document.getElementById('header'),
+        cols = document.getElementById('cols'),
+        rows = document.getElementById('rows');
 
     if (matrCount > 1) {
         document.getElementById('matr-count').value--;
@@ -51,16 +56,23 @@ function deleteTable() {
             cols.removeChild(cols.lastChild);
             rows.removeChild(rows.lastChild);
         }
+
         var d = document.getElementById('inp' + (parseInt(matrCount, 10) - 1));
         while (d.firstChild) {
             d.removeChild(d.firstChild);
+        }
+
+        if (getOperator() == "^") {
+            var params = document.getElementById('params');
+            params.removeChild(params.lastChild);
         }
     }
 }
 
 function createMatrixHeader(number) {
-    var header = document.createElement('th')
-    var center = document.createElement('center');
+    var header = document.createElement('th'),
+        center = document.createElement('center');
+
     center.innerHTML = number;
     header.scope = "col";
     header.appendChild(center);
@@ -68,8 +80,9 @@ function createMatrixHeader(number) {
 }
 
 function createMatrixNumber(number) {
-    var div = document.getElementById('inp' + (parseInt(number, 10) - 1));
-    var center = document.createElement('center');
+    var div = document.getElementById('inp' + (parseInt(number, 10) - 1)),
+        center = document.createElement('center');
+
     center.innerHTML = number;
     center.classList.add('mb-2');
     div.insertBefore(center, div.firstChild);

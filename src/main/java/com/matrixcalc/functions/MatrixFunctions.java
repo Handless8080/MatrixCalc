@@ -33,6 +33,21 @@ public class MatrixFunctions {
         return matr[0];
     }
 
+    public static double[][][] transpose(double[][]... matr) {
+        double[][][] result = new double[matr.length][][];
+
+        for (int i = 0; i < matr.length; i++) {
+            result[i] = new double[matr[i][0].length][matr[i].length];
+
+            for (int j = 0; j < matr[i].length; j++) {
+                for (int l = 0; l < matr[i][0].length; l++) {
+                    result[i][l][j] = matr[i][j][l];
+                }
+            }
+        }
+        return result;
+    }
+
     private static double[][] mulTwoMatrices(double[][] matr1, double[][] matr2) {
         double[][] result = new double[matr1.length][matr2[0].length];
 

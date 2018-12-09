@@ -1,5 +1,5 @@
 <#macro input header dimension>
-<th scope="col">
+<th scope="col" id="${dimension}-header">
     <div style="min-width: 140px">${header}</div>
 </th>
 <td>

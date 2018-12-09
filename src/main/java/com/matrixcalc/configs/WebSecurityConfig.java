@@ -12,7 +12,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/answer", "/static/**").permitAll()
+                    .antMatchers("/", "/sum-sub-mul", "/pow-rev-tran", "/static/**").permitAll()
                     .anyRequest().authenticated();
 
     }
