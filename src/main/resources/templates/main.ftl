@@ -1,6 +1,7 @@
 <#import "macros/head.ftl" as h>
 <#import "macros/div.ftl" as d>
 <#import "macros/size-group.ftl" as s>
+<#import "macros/input-table.ftl" as i>
 
 <@h.head flag="true" header="Калькулятор" font1="bold" font2="normal">
 <form method="post" action="answer">
@@ -58,44 +59,44 @@
                     <th scope="col" id="col-header">
                         <div style="min-width: 140px">Кол-во столбцов</div>
                     </th>
-                    <@s.input dimension="col" id="0" display="table-cell"></@s.input>
-                    <@s.input dimension="col" id="1" display="none"></@s.input>
-                    <@s.input dimension="col" id="2" display="none"></@s.input>
-                    <@s.input dimension="col" id="3" display="none"></@s.input>
-                    <@s.input dimension="col" id="4" display="none"></@s.input>
-                    <@s.input dimension="col" id="5" display="none"></@s.input>
-                    <@s.input dimension="col" id="6" display="none"></@s.input>
-                    <@s.input dimension="col" id="7" display="none"></@s.input>
-                    <@s.input dimension="col" id="8" display="none"></@s.input>
-                    <@s.input dimension="col" id="9" display="none"></@s.input>
+                    <@s.size dimension="col" id=0 display="table-cell"></@s.size>
+                    <@s.size dimension="col" id=1 display="none"></@s.size>
+                    <@s.size dimension="col" id=2 display="none"></@s.size>
+                    <@s.size dimension="col" id=3 display="none"></@s.size>
+                    <@s.size dimension="col" id=4 display="none"></@s.size>
+                    <@s.size dimension="col" id=5 display="none"></@s.size>
+                    <@s.size dimension="col" id=6 display="none"></@s.size>
+                    <@s.size dimension="col" id=7 display="none"></@s.size>
+                    <@s.size dimension="col" id=8 display="none"></@s.size>
+                    <@s.size dimension="col" id=9 display="none"></@s.size>
                 </tr>
                 <tr id="rows">
                     <th scope="col" id="row-header">
                         <div style="min-width: 140px">Кол-во строк</div>
                     </th>
-                    <@s.input dimension="row" id="0" display="table-cell"></@s.input>
-                    <@s.input dimension="row" id="1" display="none"></@s.input>
-                    <@s.input dimension="row" id="2" display="none"></@s.input>
-                    <@s.input dimension="row" id="3" display="none"></@s.input>
-                    <@s.input dimension="row" id="4" display="none"></@s.input>
-                    <@s.input dimension="row" id="5" display="none"></@s.input>
-                    <@s.input dimension="row" id="6" display="none"></@s.input>
-                    <@s.input dimension="row" id="7" display="none"></@s.input>
-                    <@s.input dimension="row" id="8" display="none"></@s.input>
-                    <@s.input dimension="row" id="9" display="none"></@s.input>
+                    <@s.size dimension="row" id=0 display="table-cell"></@s.size>
+                    <@s.size dimension="row" id=1 display="none"></@s.size>
+                    <@s.size dimension="row" id=2 display="none"></@s.size>
+                    <@s.size dimension="row" id=3 display="none"></@s.size>
+                    <@s.size dimension="row" id=4 display="none"></@s.size>
+                    <@s.size dimension="row" id=5 display="none"></@s.size>
+                    <@s.size dimension="row" id=6 display="none"></@s.size>
+                    <@s.size dimension="row" id=7 display="none"></@s.size>
+                    <@s.size dimension="row" id=8 display="none"></@s.size>
+                    <@s.size dimension="row" id=9 display="none"></@s.size>
                 </tr>
                 <tr id="params" style="display: none">
                     <th scope="col" id="param-header">Степень</th>
-                    <@s.input dimension="param" id="0" display="none"></@s.input>
-                    <@s.input dimension="param" id="1" display="none"></@s.input>
-                    <@s.input dimension="param" id="2" display="none"></@s.input>
-                    <@s.input dimension="param" id="3" display="none"></@s.input>
-                    <@s.input dimension="param" id="4" display="none"></@s.input>
-                    <@s.input dimension="param" id="5" display="none"></@s.input>
-                    <@s.input dimension="param" id="6" display="none"></@s.input>
-                    <@s.input dimension="param" id="7" display="none"></@s.input>
-                    <@s.input dimension="param" id="8" display="none"></@s.input>
-                    <@s.input dimension="param" id="9" display="none"></@s.input>
+                    <@s.size dimension="param" id=0 display="none"></@s.size>
+                    <@s.size dimension="param" id=1 display="none"></@s.size>
+                    <@s.size dimension="param" id=2 display="none"></@s.size>
+                    <@s.size dimension="param" id=3 display="none"></@s.size>
+                    <@s.size dimension="param" id=4 display="none"></@s.size>
+                    <@s.size dimension="param" id=5 display="none"></@s.size>
+                    <@s.size dimension="param" id=6 display="none"></@s.size>
+                    <@s.size dimension="param" id=7 display="none"></@s.size>
+                    <@s.size dimension="param" id=8 display="none"></@s.size>
+                    <@s.size dimension="param" id=9 display="none"></@s.size>
                 </tr>
                 </tbody>
             </table>
@@ -103,10 +104,17 @@
     </div>
     <div class="row">
         <div class="d-inline-flex flex-row" style="overflow-x: auto">
-            <@d.div id="0" number="1"></@d.div>
+            <@d.div id=0></@d.div>
             <div id="op0" class="d-inline-flex flex-column p-1">+</div>
-            <@d.div id="1" number="2"></@d.div>
-            <#include "macros/input-table.ftl">
+            <@d.div id=1></@d.div>
+            <@i.input number=2></@i.input>
+            <@i.input number=3></@i.input>
+            <@i.input number=4></@i.input>
+            <@i.input number=5></@i.input>
+            <@i.input number=6></@i.input>
+            <@i.input number=7></@i.input>
+            <@i.input number=8></@i.input>
+            <@i.input number=9></@i.input>
         </div>
     </div>
     <div class="row mt-3">
