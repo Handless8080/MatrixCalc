@@ -1,125 +1,105 @@
 function setOperator() {
     var operator = this.innerHTML,
         select = document.getElementById('operators'),
-        header = document.getElementById('header'),
         tables = document.getElementById('matr-count').value;
 
     select.innerHTML = operator;
     var char = getOperator();
 
-    while (header.firstChild) {
-        header.removeChild(header.firstChild);
-    }
-
-    for (var i = 1; i < tables; i++) {
-        var colSize = document.getElementById('ctd' + i),
-            rowSize = document.getElementById('rtd' + i);
-
-        if (colSize && rowSize) {
-            colSize.remove();
-            rowSize.remove();
-        }
-    }
-
     if (char == "+" || char == "-") {
         var rows = document.getElementById('row0').value,
             cols = document.getElementById('col0').value;
 
+        document.getElementById('header').style.display = "none";
         document.getElementById('rows').style.display = "table-row";
         document.getElementById('params').style.display = "none";
-        document.getElementById('col-header').innerHTML = "Кол-во строк";
+        document.getElementById('header').style.display = "none";
 
-        while (header.firstChild) {
-            header.removeChild(header.firstChild);
+        var maxCols = cols,
+            maxRows = rows;
+        for (var i = 1; i < tables; i++) {
+            var col = document.getElementById('col' + i).value,
+                row = document.getElementById('row' + i).value;
+
+            if (maxCols < col) {
+                maxCols = col;
+            }
+            if (maxRows < row) {
+                maxRows = row;
+            }
         }
 
-        for (var i = 1; i < tables; i++) {
-            var inp = document.getElementById('inp' + i);
-            while (inp.lastChild) {
-                inp.removeChild(inp.lastChild);
-            }
+        for (var i = 0; i < tables; i++) {
+            changeMatricesSize(i, maxCols, maxRows);
 
-            var center = document.createElement('center');
-            center.innerHTML = parseInt(i, 10) + 1;
-            center.classList.add("mb-2");
-            inp.appendChild(center);
-
-            for (var l = 0; l < rows; l++) {
-                var div = document.createElement('div');
-                div.classList.add('d-inline-flex');
-                div.classList.add('flex-row');
-                div.id = "inp" + i + l;
-                inp.appendChild(div);
-
-                for (var j = 0; j < cols; j++) {
-                    var input = createInput(i, l, j);
-                    div.appendChild(input);
-                }
-            }
+            document.getElementById('col0').value = maxCols;
+            document.getElementById('row0').value = maxRows;
         }
     } else {
-        createHeader();
-        document.getElementById('col-header').innerHTML = "Кол-во столбцов";
+        document.getElementById('header').style.display = "table-row";
+        for (var i = 0; i < tables; i++) {
+            document.getElementById('s-head' + i).style.display = "table-cell";
+            document.getElementById('td-col' + i).style.display = "table-cell";
+            document.getElementById('td-row' + i).style.display = "table-cell";
+        }
+
         switch (char) {
             case "*":
                 document.getElementById('rows').style.display = "table-row";
                 document.getElementById('params').style.display = "none";
                 document.getElementById('col-header').innerHTML = "Кол-во столбцов";
 
-                var cols = document.getElementById('col0').value;
-                for (var t = 1; t < tables; t++) {
-                    var d = document.getElementById('inp' + t);
-                    document.getElementById('col' + t).value = document.getElementById('row' + t).value = cols;
+                var maxCols = document.getElementById('col0').value,
+                    maxRows = document.getElementById('row0').value;
 
-                    while (d.lastChild) {
-                        d.removeChild(d.lastChild);
+                for (var i = 1; i < tables; i++) {
+                    var col = document.getElementById('col' + i).value,
+                        row = document.getElementById('row' + i).value;
+                    if (maxCols < col) {
+                        maxCols = col;
                     }
-
-                    var center = document.createElement('center');
-                    center.innerHTML = parseInt(t, 10) + 1;
-                    center.classList.add("mb-2");
-                    d.appendChild(center);
-
-                    for (var i = 0; i < cols; i++) {
-                        var div = document.createElement('div');
-                        div.classList.add('d-inline-flex');
-                        div.classList.add('flex-row');
-                        div.id = "inp" + t + i;
-                        d.appendChild(div);
-
-                        for (var j = 0; j < cols; j++) {
-                            var input = createInput(t, i, j);
-                            div.appendChild(input);
-                        }
+                    if (maxRows < row) {
+                        maxRows = row;
                     }
+                }
+                if (maxRows > maxCols) {
+                    maxCols = maxRows;
+                }
+
+                for (var t = 0; t < tables; t++) {
+                    changeMatricesSize(t, maxCols, maxCols);
+
+                    document.getElementById('col' + t).value = document.getElementById('row' + t).value = maxCols;
                 }
                 break;
             case "^":
-                var params = document.getElementById('params');
-                while (params.firstChild) {
-                    params.removeChild(params.firstChild);
+                document.getElementById('rows').style.display = "none";
+                document.getElementById('params').style.display = "table-row";
+                document.getElementById('col-header').innerHTML = "Размерность";
+
+                var maxCols = document.getElementById('col0').value,
+                    maxRows = document.getElementById('row0').value;
+
+                for (var i = 1; i < tables; i++) {
+                    var col = document.getElementById('col' + i).value,
+                        row = document.getElementById('row' + i).value;
+                    if (maxCols < col) {
+                        maxCols = col;
+                    }
+                    if (maxRows < row) {
+                        maxRows = row;
+                    }
+                }
+                if (maxRows > maxCols) {
+                    maxCols = maxRows;
                 }
 
-                var th = document.createElement('th');
-                th.scope = "col";
-                th.innerHTML = "Степень";
-                document.getElementById('rows').style.display = "none";
+                for (var t = 0; t < tables; t++) {
+                    changeMatricesSize(t, maxCols, maxCols);
 
-                params.style.display = "table-row";
-                params.appendChild(th);
+                    document.getElementById('td-param' + t).style.display = "table-cell";
 
-                document.getElementById('col-header').innerHTML = "Размерность";
-                for (var i = 0; i < tables; i++) {
-                    var cols = document.getElementById('col' + i),
-                        rows = document.getElementById('row' + i),
-                        max = cols;
-
-                    if (cols < rows) {
-                        var max = rows;
-                    }
-
-
-                    createSizeInput('param', i);
+                    document.getElementById('col' + t).value = document.getElementById('row' + t).value = maxCols;
                 }
                 break;
         }
@@ -131,56 +111,52 @@ function setOperator() {
 }
 
 function getOperator() {
-    var char;
-
     switch(document.getElementById('operators').innerHTML) {
         case 'Сложение':
-            char = '+';
-            break;
+            return '+';
         case 'Вычитание':
-            char = '-';
-            break;
+            return '-';
         case 'Умножение':
-            char = '*';
-            break;
+            return '*';
         case 'Возведение в степень':
-            char = '^';
-            break;
+            return '^';
         case 'Найти определитель':
-            char = 'd';
-            break;
+            return 'd';
         case 'Найти обратную':
-            char = '-1';
-            break;
+            return '-1';
         case 'Транспонировать':
-            char = 't';
-            break;
+            return 't';
         case 'Найти ранг':
-            char = 'm';
+            return 'm';
     }
-    return char;
 }
 
-function createHeader() {
-    var tables = document.getElementById('matr-count').value;
+function changeMatricesSize(t, maxCols, maxRows) {
+    var d = document.getElementById('inp' + t);
+    var row = document.getElementById('row' + t).value;
 
-    var th = document.createElement('th');
-    th.scope = "col";
+    if (maxCols > row) {
+        for (var i = row; i < maxRows; i++) {
+            var div = document.createElement('div');
+            div.classList.add('d-inline-flex');
+            div.classList.add('flex-row');
+            div.id = "inp" + t + i;
+            d.appendChild(div);
 
-    var div = document.createElement('div');
-    div.innerHTML = "Номер матрицы";
-    div.style.minWidth = "140px";
+            for (var j = 0; j < maxCols; j++) {
+                var input = createInput(t, i, j);
+                div.appendChild(input);
+            }
+        }
+    } else {
+        var cols = document.getElementById('col' + t).value;
+        for (var l = 0; l < maxRows; l++) {
 
-    th.appendChild(div);
-    header.appendChild(th);
-
-    var number1 = createMatrixHeader(1);
-    header.appendChild(number1);
-
-    for (var i = 1; i < tables; i++) {
-        var number = createMatrixHeader(parseInt(i, 10) + 1);
-        header.appendChild(number);
-        createSizeInput('col', i);
-        createSizeInput('row', i);
+            for (var j = cols; j < maxCols; j++) {
+                var div = document.getElementById('inp' + t + l)
+                var input = createInput(t, l, j);
+                div.appendChild(input);
+            }
+        }
     }
 }

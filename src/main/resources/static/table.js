@@ -1,30 +1,31 @@
 function createTable() {
     var matrCount = document.getElementById('matr-count').value;
-    if (getOperator() != "+" && getOperator() != "-") {
-        var col = document.getElementById('col' + (parseInt(matrCount, 10) - 1)).value,
-            row = 1;
-    } else {
-        var col = document.getElementById('col0').value,
-            row = document.getElementById('row0').value;
-    }
 
     if (matrCount < 10) {
-        if (getOperator() != "+" && getOperator() != "-") {
-            createSizeInput('col', matrCount);
-            createSizeInput('row', matrCount);
+        var col, row;
+        switch (getOperator()) {
+            case "+":
+            case "-":
+                col = document.getElementById('col0').value;
+                row = document.getElementById('row0').value;
+                break;
+            case "*":
+                col = row = document.getElementById('col' + (parseInt(matrCount, 10) - 1)).value;
+                break;
+            default:
+                col = row = 1;
+        }
 
-            var number = createMatrixHeader(parseInt(matrCount, 10) + 1);
-            header.appendChild(number);
-        }
-        if (getOperator() == "^") {
-            createSizeInput('param', parseInt(matrCount, 10) + 1);
-        }
+        document.getElementById('s-head' + matrCount).style.display = "table-cell";
+        document.getElementById('td-col' + matrCount).style.display = "table-cell";
+        document.getElementById('td-row' + matrCount).style.display = "table-cell";
 
         document.getElementById('matr-count').value++;
         var char = getOperator();
         document.getElementById('op' + (parseInt(matrCount, 10) - 1)).innerHTML = ((char == "+" || char == "-" || char == "*") ? char : "");
 
-        var d = document.getElementById('inp' + matrCount)
+        var d = document.getElementById('inp' + matrCount);
+        d.style.visibility = "visible";
         for (var i = 0; i < row; i++) {
             var div = document.createElement('div');
             div.classList.add('d-inline-flex');
@@ -37,53 +38,39 @@ function createTable() {
                 div.appendChild(input);
             }
         }
-        createMatrixNumber(parseInt(matrCount, 10) + 1);
+
+        document.getElementById('col' + matrCount).value = col;
+        document.getElementById('row' + matrCount).value = row;
     }
 }
 
 function deleteTable() {
     var matrCount = document.getElementById('matr-count').value,
-        header = document.getElementById('header'),
         cols = document.getElementById('cols'),
         rows = document.getElementById('rows');
 
     if (matrCount > 1) {
         document.getElementById('matr-count').value--;
-        document.getElementById('op' + (parseInt(matrCount, 10) - 2)).innerHTML = "";
+        document.getElementById('s-head' + matrCount).style.display = "none";
 
-        if (header.lastChild && cols.lastChild && rows.lastChild) {
-            header.removeChild(header.lastChild);
-            cols.removeChild(cols.lastChild);
-            rows.removeChild(rows.lastChild);
-        }
+        var id = parseInt(matrCount, 10) - 1;
 
-        var d = document.getElementById('inp' + (parseInt(matrCount, 10) - 1));
+        document.getElementById('op' + (parseInt(id, 10) - 1)).innerHTML = "";
+
+        var d = document.getElementById('inp' + id);
         while (d.firstChild) {
             d.removeChild(d.firstChild);
         }
 
+        var center = document.createElement('center');
+        center.classList.add('mb-2');
+        center.innerHTML = matrCount;
+        d.appendChild(center);
+
+        d.style.visibility = "hidden";
+
         if (getOperator() == "^") {
-            var params = document.getElementById('params');
-            params.removeChild(params.lastChild);
+            document.getElementById('params' + id).style.display = "none";
         }
     }
-}
-
-function createMatrixHeader(number) {
-    var header = document.createElement('th'),
-        center = document.createElement('center');
-
-    center.innerHTML = number;
-    header.scope = "col";
-    header.appendChild(center);
-    return header;
-}
-
-function createMatrixNumber(number) {
-    var div = document.getElementById('inp' + (parseInt(number, 10) - 1)),
-        center = document.createElement('center');
-
-    center.innerHTML = number;
-    center.classList.add('mb-2');
-    div.insertBefore(center, div.firstChild);
 }

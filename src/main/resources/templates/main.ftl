@@ -28,7 +28,7 @@
                     <span class="mr-1">Кол-во матриц:</span>
                     <button type="button" id="btn-matr-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
                 </div>
-                <input type="text" id="matr-count" readonly style="width: 31px; height: 31px" class="form-control p-1 pl-2" value="2">
+                <input type="text" id="matr-count" readonly class="form-control p-1 pl-2" style="width: 31px; height: 31px" value="2">
                 <div class="input-group-prepend">
                     <button type="button" id="btn-matr-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
                 </div>
@@ -39,17 +39,63 @@
         <div style="overflow-x: auto">
             <table class="table table-bordered table-sm">
                 <thead>
-                <tr id="header"></tr>
+                <tr id="header" style="display: none">
+                    <th scope="col">Номер матрицы</th>
+                    <th id="s-head0" scope="col" style="display: none"><center>1</center></th>
+                    <th id="s-head1" scope="col" style="display: none"><center>2</center></th>
+                    <th id="s-head2" scope="col" style="display: none"><center>3</center></th>
+                    <th id="s-head3" scope="col" style="display: none"><center>4</center></th>
+                    <th id="s-head4" scope="col" style="display: none"><center>5</center></th>
+                    <th id="s-head5" scope="col" style="display: none"><center>6</center></th>
+                    <th id="s-head6" scope="col" style="display: none"><center>7</center></th>
+                    <th id="s-head7" scope="col" style="display: none"><center>8</center></th>
+                    <th id="s-head8" scope="col" style="display: none"><center>9</center></th>
+                    <th id="s-head9" scope="col" style="display: none"><center>10</center></th>
+                </tr>
                 </thead>
                 <tbody>
                 <tr id="cols">
-                    <@s.input header="Кол-во столбцов" dimension="col"></@s.input>
+                    <th scope="col" id="col-header">
+                        <div style="min-width: 140px">Кол-во столбцов</div>
+                    </th>
+                    <@s.input dimension="col" id="0" display="table-cell"></@s.input>
+                    <@s.input dimension="col" id="1" display="none"></@s.input>
+                    <@s.input dimension="col" id="2" display="none"></@s.input>
+                    <@s.input dimension="col" id="3" display="none"></@s.input>
+                    <@s.input dimension="col" id="4" display="none"></@s.input>
+                    <@s.input dimension="col" id="5" display="none"></@s.input>
+                    <@s.input dimension="col" id="6" display="none"></@s.input>
+                    <@s.input dimension="col" id="7" display="none"></@s.input>
+                    <@s.input dimension="col" id="8" display="none"></@s.input>
+                    <@s.input dimension="col" id="9" display="none"></@s.input>
                 </tr>
                 <tr id="rows">
-                    <@s.input header="Кол-во строк" dimension="row"></@s.input>
+                    <th scope="col" id="row-header">
+                        <div style="min-width: 140px">Кол-во строк</div>
+                    </th>
+                    <@s.input dimension="row" id="0" display="table-cell"></@s.input>
+                    <@s.input dimension="row" id="1" display="none"></@s.input>
+                    <@s.input dimension="row" id="2" display="none"></@s.input>
+                    <@s.input dimension="row" id="3" display="none"></@s.input>
+                    <@s.input dimension="row" id="4" display="none"></@s.input>
+                    <@s.input dimension="row" id="5" display="none"></@s.input>
+                    <@s.input dimension="row" id="6" display="none"></@s.input>
+                    <@s.input dimension="row" id="7" display="none"></@s.input>
+                    <@s.input dimension="row" id="8" display="none"></@s.input>
+                    <@s.input dimension="row" id="9" display="none"></@s.input>
                 </tr>
                 <tr id="params" style="display: none">
-                    <th scope="col">Степень</th>
+                    <th scope="col" id="param-header">Степень</th>
+                    <@s.input dimension="param" id="0" display="none"></@s.input>
+                    <@s.input dimension="param" id="1" display="none"></@s.input>
+                    <@s.input dimension="param" id="2" display="none"></@s.input>
+                    <@s.input dimension="param" id="3" display="none"></@s.input>
+                    <@s.input dimension="param" id="4" display="none"></@s.input>
+                    <@s.input dimension="param" id="5" display="none"></@s.input>
+                    <@s.input dimension="param" id="6" display="none"></@s.input>
+                    <@s.input dimension="param" id="7" display="none"></@s.input>
+                    <@s.input dimension="param" id="8" display="none"></@s.input>
+                    <@s.input dimension="param" id="9" display="none"></@s.input>
                 </tr>
                 </tbody>
             </table>
@@ -77,7 +123,6 @@
 <script src="static/table.js"></script>
 <script src="static/rows.js"></script>
 <script src="static/cols.js"></script>
-<script src="static/size-group.js"></script>
 <script src="static/scripts.js"></script>
 <script src="static/show-answer.js"></script>
 </@h.head>

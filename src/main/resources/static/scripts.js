@@ -11,11 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-matr-count-more').addEventListener('click', createTable);
     document.getElementById('btn-matr-count-less').addEventListener('click', deleteTable);
 
-    document.getElementById('btn-rows-count-more0').addEventListener('click', createRows);
-    document.getElementById('btn-rows-count-less0').addEventListener('click', deleteRows);
+    for (var i = 0; i < 10; i++) {
+        document.getElementById('btn-rows-count-less' + i).addEventListener('click', deleteRows);
+        document.getElementById('btn-rows-count-more' + i).addEventListener('click', createRows);
 
-    document.getElementById('btn-cols-count-more0').addEventListener('click', createColumns);
-    document.getElementById('btn-cols-count-less0').addEventListener('click', deleteColumns);
+        document.getElementById('btn-cols-count-less' + i).addEventListener('click', deleteColumns);
+        document.getElementById('btn-cols-count-more' + i).addEventListener('click', createColumns);
+    }
 });
 
 function createInput(t, i, j) {
@@ -24,12 +26,4 @@ function createInput(t, i, j) {
     input.id = "number" + t + i + j;
     input.style.width = "50px";
     return input;
-}
-
-function getSize(t, dimension) {
-    if (getOperator() == "+" || getOperator() == "-") {
-        return document.getElementById(dimension + '0').value;
-    } else {
-        return document.getElementById(dimension + t).value;
-    }
 }

@@ -12,7 +12,9 @@ function createColumns() {
         switch (getOperator()) {
             case "+":
             case "-":
+                colCount.value--;
                 for (var t = 0; t < matrCount; t++) {
+                    document.getElementById('col' + t).value++;
                     createColumn(t);
                 }
                 break;
@@ -52,7 +54,9 @@ function deleteColumns() {
         switch (getOperator()) {
             case "+":
             case "-":
+                colCount.value++;
                 for (var t = 0; t < matrCount; t++) {
+                    document.getElementById('col' + t).value--;
                     deleteColumn(t);
                 }
                 break;
@@ -79,19 +83,20 @@ function deleteColumns() {
 }
 
 function createColumn(t) {
-    var row = getSize(t, 'row'),
-        col = getSize(t, 'col');
+    var row = document.getElementById('row' + t).value,
+        col = document.getElementById('col' + t).value;
 
     for (var i = 0; i < row; i++) {
         var div = document.getElementById('inp' + t + i),
             input = createInput(t, i, parseInt(col, 10) - 1);
+
         div.appendChild(input);
     }
 }
 
 function deleteColumn(t) {
-    var row = getSize(t, 'row'),
-        col = getSize(t, 'col');
+    var row = document.getElementById('row' + t).value,
+        col = document.getElementById('col' + t).value;
 
     for (var i = 0; i < row; i++) {
         var input = document.getElementById('number' + t + i + parseInt(col, 10));

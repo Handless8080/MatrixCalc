@@ -12,7 +12,9 @@ function createRows() {
         switch (getOperator()) {
             case "+":
             case "-":
+                rowCount.value--;
                 for (var t = 0; t < matrCount; t++) {
+                    document.getElementById('row' + t).value++;
                     createRow(t);
                 }
                 break;
@@ -43,7 +45,9 @@ function deleteRows() {
         switch (getOperator()) {
             case "+":
             case "-":
+                rowCount.value++;
                 for (var t = 0; t < matrCount; t++) {
+                    document.getElementById('row' + t).value--;
                     deleteRow(t);
                 }
                 break;
@@ -62,8 +66,8 @@ function deleteRows() {
 }
 
 function createRow(t) {
-    var row = getSize(t, 'row'),
-        col = getSize(t, 'col');
+    var row = document.getElementById('row' + t).value,
+        col = document.getElementById('col' + t).value;
 
     var d = document.getElementById('inp' + t),
         div = document.createElement('div');
@@ -80,7 +84,7 @@ function createRow(t) {
 }
 
 function deleteRow(t) {
-    var row = getSize(t, 'row'),
+    var row = document.getElementById('row' + t).value,
         div = document.getElementById('inp' + t + parseInt(row, 10));
 
     div.remove();
