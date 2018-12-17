@@ -14,6 +14,10 @@ function setOperator() {
         document.getElementById('rows').style.display = "table-row";
         document.getElementById('params').style.display = "none";
         document.getElementById('header').style.display = "none";
+        for (var i = 1; i < tables; i++) {
+            document.getElementById('td-col' + i).style.display = "none";
+            document.getElementById('td-row' + i).style.display = "none";
+        }
 
         var maxCols = cols,
             maxRows = rows;
@@ -102,6 +106,41 @@ function setOperator() {
                     document.getElementById('col' + t).value = document.getElementById('row' + t).value = maxCols;
                 }
                 break;
+            case "d":
+            case "-1":
+                document.getElementById('rows').style.display = "none";
+                document.getElementById('params').style.display = "none";
+                document.getElementById('col-header').innerHTML = "Размерность";
+
+                var maxCols = document.getElementById('col0').value,
+                    maxRows = document.getElementById('row0').value;
+
+                for (var i = 1; i < tables; i++) {
+                    var col = document.getElementById('col' + i).value,
+                        row = document.getElementById('row' + i).value;
+                    if (maxCols < col) {
+                        maxCols = col;
+                    }
+                    if (maxRows < row) {
+                        maxRows = row;
+                    }
+                }
+                if (maxRows > maxCols) {
+                    maxCols = maxRows;
+                }
+
+                for (var t = 0; t < tables; t++) {
+                    changeMatricesSize(t, maxCols, maxCols);
+
+                    document.getElementById('td-param' + t).style.display = "table-cell";
+
+                    document.getElementById('col' + t).value = document.getElementById('row' + t).value = maxCols;
+                }
+                break;
+            default:
+                document.getElementById('rows').style.display = "table-row";
+                document.getElementById('params').style.display = "none";
+                document.getElementById('col-header').innerHTML = "Кол-во столбцов";
         }
     }
 
@@ -134,8 +173,20 @@ function getOperator() {
 function changeMatricesSize(t, maxCols, maxRows) {
     var d = document.getElementById('inp' + t);
     var row = document.getElementById('row' + t).value;
+    var col = document.getElementById('col' + t).value;
 
-    if (maxCols > row) {
+    if (maxCols > col) {
+        for (var l = 0; l < row; l++) {
+
+            for (var j = col; j < maxCols; j++) {
+                var div = document.getElementById('inp' + t + l)
+                var input = createInput(t, l, j);
+                div.appendChild(input);
+            }
+        }
+    }
+
+    if (maxRows > row) {
         for (var i = row; i < maxRows; i++) {
             var div = document.createElement('div');
             div.classList.add('d-inline-flex');
@@ -145,16 +196,6 @@ function changeMatricesSize(t, maxCols, maxRows) {
 
             for (var j = 0; j < maxCols; j++) {
                 var input = createInput(t, i, j);
-                div.appendChild(input);
-            }
-        }
-    } else {
-        var cols = document.getElementById('col' + t).value;
-        for (var l = 0; l < maxRows; l++) {
-
-            for (var j = cols; j < maxCols; j++) {
-                var div = document.getElementById('inp' + t + l)
-                var input = createInput(t, l, j);
                 div.appendChild(input);
             }
         }

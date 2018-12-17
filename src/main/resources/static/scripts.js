@@ -1,3 +1,5 @@
+const CHAR_CODE = 65;
+
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('1').addEventListener('click', setOperator);
     document.getElementById('2').addEventListener('click', setOperator);

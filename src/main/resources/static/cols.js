@@ -77,7 +77,7 @@ function deleteColumns() {
                 deleteRow(index);
                 break;
             default:
-                deleteRow(index);
+                deleteColumn(index);
         }
     }
 }
