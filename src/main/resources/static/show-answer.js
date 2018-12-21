@@ -98,6 +98,24 @@ function showMatrix(result) {
 
 function showMatrices(result) {
     for (var t = 0; t < result.length; t++) {
+        if (result[t] == null) {
+            var div = document.createElement('div');
+            div.classList.add('d-inline-flex');
+            div.classList.add('flex-column');
+            div.classList.add('mr-3');
+
+            var center = document.createElement('center');
+            center.innerHTML = String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10));
+
+            var span = document.createElement('span');
+            span.innerHTML = "Обратной матрицы не существует";
+
+            div.appendChild(center);
+            div.appendChild(span);
+            document.getElementById('answer').appendChild(div);
+            continue;
+        }
+
         createAnswerTable(t);
 
         var out = "";

@@ -7,7 +7,7 @@
 <form method="post" action="answer">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="row">
-        <div class="col-mx-5 mr-3">
+        <div class="col-mx-5 mr-3 mb-3">
             <span>Операция:</span>
             <div class="btn-group">
                 <button type="button" id="operators" class="btn btn-sm btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Сложение</button>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-mx-5">
+        <div class="col-mx-5 mb-3">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="mr-1">Кол-во матриц:</span>
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="row mb-3 mt-3">
+    <div class="row">
         <div style="overflow-x: auto">
             <table class="table table-bordered table-sm">
                 <thead>

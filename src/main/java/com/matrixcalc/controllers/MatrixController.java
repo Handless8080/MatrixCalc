@@ -44,10 +44,25 @@ public class MatrixController {
             case "Воззведение в степень":
                 break;
             case "Найти обратную":
+                values = MatrixFunctions.inverse(values);
                 break;
             case "Транспонировать":
                 values = MatrixFunctions.transpose(values);
         }
         return values;
+    }
+
+    @PostMapping("/det-rank")
+    public @ResponseBody double[] showAnswer3(@RequestBody Matrices matrices) {
+        double[][][] values = matrices.getNumbers();
+        double[] result = new double[values.length];
+
+        switch (matrices.getOperator()) {
+            case "Найти ранг":
+                break;
+            case "Найти определитель":
+                result = MatrixFunctions.det(values);
+        }
+        return result;
     }
 }
