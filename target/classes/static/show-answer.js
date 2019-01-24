@@ -19,6 +19,11 @@ $(document).ready(function() {
 				xhr.setRequestHeader('X-CSRF-Token', csrf)
 			},
 			success: function(result) {
+			    var output = document.getElementById('answer');
+			    while (output.firstChild) {
+			        output.removeChild(output.firstChild);
+			    }
+
 			    switch (getOperator()) {
                     case "+":
                     case "-":
@@ -74,10 +79,15 @@ function getURL() {
         case "-1":
         case "t":
             return "/pow-rev-tran";
+        case "d":
+        case "m":
+            return "/det-rank";
     }
 }
 
 function showMatrix(result) {
+    createAnswerTable(0);
+
     var out = "";
 	for (var i = 0; i < result.length; i++) {
 		out += "<tr>";
@@ -86,17 +96,30 @@ function showMatrix(result) {
 		}
 		out += "</tr>";
 	}
-	$("#result").html(out);
+	$("#result0").html(out);
 }
 
 function showMatrices(result) {
     for (var t = 0; t < result.length; t++) {
-        var table = document.createElement('table');
-        table.classList.add('table');
-        table.classList.add('table-bordered');
-        table.classList.add('table-sm');
-        table.id = 'result' + t;
-        document.getElementById('answer').appendChild(table);
+        if (result[t] == null) {
+            var div = document.createElement('div');
+            div.classList.add('d-inline-flex');
+            div.classList.add('flex-column');
+            div.classList.add('mr-3');
+
+            var center = document.createElement('center');
+            center.innerHTML = String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10));
+
+            var span = document.createElement('span');
+            span.innerHTML = "Обратной матрицы не существует";
+
+            div.appendChild(center);
+            div.appendChild(span);
+            document.getElementById('answer').appendChild(div);
+            continue;
+        }
+
+        createAnswerTable(t);
 
         var out = "";
         for (var i = 0; i < result[t].length; i++) {
@@ -108,4 +131,24 @@ function showMatrices(result) {
         }
         $("#result" + t).html(out);
     }
+}
+
+function createAnswerTable(t) {
+    var div = document.createElement('div');
+    div.classList.add('d-inline-flex');
+    div.classList.add('flex-column');
+    div.classList.add('mr-3');
+
+    var center = document.createElement('center');
+    center.innerHTML = String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10));
+
+    var table = document.createElement('table');
+    table.classList.add('table');
+    table.classList.add('table-bordered');
+    table.classList.add('table-sm');
+    table.id = 'result' + t;
+
+    div.appendChild(center);
+    div.appendChild(table);
+    document.getElementById('answer').appendChild(div);
 }

@@ -1,43 +1,53 @@
 package com.matrixcalc.functions;
 
+import java.math.BigDecimal;
+
 public class MatrixFunctions {
-
-    public static double[][] sum(double[][]... matr) {
+    private static final int SCALE_FOR_CALC = 8;
+    private static final int SCALE_FOR_ANSWER = 4;
+    
+    public static BigDecimal[][] sum(BigDecimal[][]... matr) {
         for (int t = 1; t < matr.length; t++) {
 
             for (int i = 0; i < matr[t].length; i++) {
                 for (int j = 0; j < matr[t][i].length; j++) {
-                    matr[0][i][j] += matr[t][i][j];
+                    matr[0][i][j] = matr[0][i][j].add(matr[t][i][j]);
                 }
             }
         }
         return matr[0];
     }
 
-    public static double[][] sub(double[][]... matr) {
+    public static BigDecimal[][] sub(BigDecimal[][]... matr) {
         for (int t = 1; t < matr.length; t++) {
 
             for (int i = 0; i < matr[t].length; i++) {
                 for (int j = 0; j < matr[t][i].length; j++) {
-                    matr[0][i][j] -= matr[t][i][j];
+                    matr[0][i][j] = matr[0][i][j].subtract(matr[t][i][j]);
                 }
             }
         }
         return matr[0];
     }
 
-    public static double[][] mul(double[][]... matr) {
+    public static BigDecimal[][] mul(BigDecimal[][]... matr) {
         for (int t = 1; t < matr.length; t++) {
             matr[0] = mulTwoMatrices(matr[0], matr[t]);
         }
+
+        for (int i = 0; i < matr[0].length; i++) {
+            for (int j = 0; j < matr[0][0].length; j++) {
+                matr[0][i][j] = matr[0][i][j].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
+            }
+        }
         return matr[0];
     }
 
-    public static double[][][] transpose(double[][]... matr) {
-        double[][][] result = new double[matr.length][][];
+    public static BigDecimal[][][] transpose(BigDecimal[][]... matr) {
+        BigDecimal[][][] result = new BigDecimal[matr.length][][];
 
         for (int i = 0; i < matr.length; i++) {
-            result[i] = new double[matr[i][0].length][matr[i].length];
+            result[i] = new BigDecimal[matr[i][0].length][matr[i].length];
 
             for (int j = 0; j < matr[i].length; j++) {
                 for (int l = 0; l < matr[i][0].length; l++) {
@@ -48,105 +58,168 @@ public class MatrixFunctions {
         return result;
     }
 
-    public static double[][][] inverse(double[][]... matr) {
-        double[][][] result = new double[matr.length][][];
+    public static BigDecimal[][][] inverse(BigDecimal[][]... matr) {
+        BigDecimal[][][] result = new BigDecimal[matr.length][][];
+        BigDecimal[][][] finalResult = new BigDecimal[matr.length][][];
 
-        double[][][] clone = new double[matr.length][][];
+        BigDecimal[][][] clone = new BigDecimal[matr.length][][];
         for (int i = 0; i < matr.length; i++) {
-            clone[i] = new double[matr[i].length][matr[i].length];
+            clone[i] = new BigDecimal[matr[i].length][matr[i].length];
+
             for (int j = 0; j < matr[i].length; j++) {
                 System.arraycopy(matr[i][j], 0, clone[i][j], 0, matr[i].length);
             }
         }
 
-        double[] det = det(clone);
+        BigDecimal[] det = det(clone);
 
         for (int i = 0; i < matr.length; i++) {
-            result[i] = new double[matr[i].length][matr[i].length];
+            result[i] = new BigDecimal[matr[i].length][matr[i].length];
+
             for (int j = 0; j < matr[i].length; j++) {
-                result[i][j][j] = 1;
+                for (int l = 0; l < matr[i].length; l++) {
+                    result[i][j][l] = new BigDecimal(0);
+                }
+                result[i][j][j] = new BigDecimal(1);
             }
         }
 
         for (int i = 0; i < matr.length; i++) {
-            if (det[i] == 0) {
+            if (det[i].signum() == 0) {
                 result[i] = null;
                 continue;
             }
 
-            matr[i] = removeZerosFromDiagonal(matr[i]);
+            int[] positions = new int[matr[i].length];
+            removeZerosFromDiagonal(matr[i], positions);
 
             for (int j = 0; j < matr[i].length; j++) {
-                double digit = matr[i][j][j];
+                BigDecimal digit = matr[i][j][j];
 
                 for (int l = 0; l < matr[i].length; l++) {
-                    matr[i][j][l] /= digit;
-                    result[i][j][l] /= digit;
+                    matr[i][j][l] = matr[i][j][l].divide(digit, SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
+                    result[i][j][l] = result[i][j][l].divide(digit, SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
                 }
 
                 for (int l = j + 1; l < matr[i].length; l++) {
                     digit = matr[i][l][j];
 
                     for (int k = 0; k < matr[i].length; k++) {
-                        matr[i][l][k] -= matr[i][j][k] * digit;
-                        result[i][l][k] -= result[i][j][k] * digit;
+                        matr[i][l][k] = matr[i][l][k].subtract(matr[i][j][k].multiply(digit));
+                        result[i][l][k] = result[i][l][k].subtract(result[i][j][k].multiply(digit));
                     }
                 }
             }
 
             for (int j = matr[i].length - 1; j >= 0; j--) {
                 for (int l = j - 1; l >= 0; l--) {
-                    double digit = matr[i][l][j];
+                    BigDecimal digit = matr[i][l][j];
 
                     for (int k = 0; k < matr[i].length; k++) {
-                        matr[i][l][k] -= matr[i][j][k] * digit;
-                        result[i][l][k] -= result[i][j][k] * digit;
+                        matr[i][l][k] = matr[i][l][k].subtract(matr[i][j][k].multiply(digit));
+                        result[i][l][k] = result[i][l][k].subtract(result[i][j][k].multiply(digit));
                     }
                 }
             }
+
+            finalResult[i] = new BigDecimal[matr[i].length][matr[i].length];
+            for (int j = 0; j < matr[i].length; j++) {
+                for (int l = 0; l < matr[i].length; l++) {
+                    finalResult[i][j][positions[l]] = result[i][j][l].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
+                }
+            }
         }
-        return result;
+        return finalResult;
     }
 
-    public static double[] det(double[][]... matr) {
-        double[] result = new double[matr.length];
+    /*public static BigDecimal[] det(BigDecimal[][]... matr) {
+        BigDecimal[] result = new BigDecimal[matr.length];
 
         for (int i = 0; i < matr.length; i++) {
-            double[][][] buf = new double[matr[i].length][][];
-            buf[matr[i].length - 1] = new double[matr[i].length][matr[i].length];
+            BigDecimal[][][] buf = new BigDecimal[matr[i].length][][];
+            buf[matr[i].length - 1] = new BigDecimal[matr[i].length][matr[i].length];
             for (int j = 0; j < matr[i].length; j++) {
                 System.arraycopy(matr[i][j], 0, buf[matr[i].length - 1][j], 0, matr[i].length);
             }
 
             for (int j = 0; j < matr[i].length - 1; j++) {
                 for (int l = 0; l < matr[i].length - 1; l++) {
-                    matr[i][j][l] = matr[i][j][l] * matr[i][j + 1][l + 1] - matr[i][j][l + 1] * matr[i][j + 1][l];
+                    BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
+                    BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
+                    matr[i][j][l] = mul1.subtract(mul2);
                 }
             }
 
             for (int k = matr[i].length - 2; k > 0; k--) {
-                buf[k] = new double[k + 1][k + 1];
+                buf[k] = new BigDecimal[k + 1][k + 1];
 
                 for (int j = 0; j < k; j++) {
                     for (int l = 0; l < k; l++) {
                         buf[k][j][l] = matr[i][j][l];
-                        matr[i][j][l] = (matr[i][j][l] * matr[i][j + 1][l + 1] - matr[i][j][l + 1] * matr[i][j + 1][l]) / buf[k + 1][j + 1][l + 1];
+                        BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
+                        BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
+                        BigDecimal sub = mul1.subtract(mul2);
+                        matr[i][j][l] = sub.divide(buf[k + 1][j + 1][l + 1], SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
                     }
                 }
             }
-            result[i] = matr[i][0][0];
+            result[i] = matr[i][0][0].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
+
         }
+        return result;
+    }*/
+
+    public static BigDecimal[] det(BigDecimal[][]... matr) {
+        BigDecimal[] result = new BigDecimal[matr.length];
+        BigDecimal buf;
+
+        for (int i = 0; i < matr.length; i++) {
+            if (matr[i].length % 2 == 0) {
+                for (int j = 0; j < matr[i].length - 1; j++) {
+                    for (int l = 0; l < matr[i].length - 1; l++) {
+                        BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
+                        BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
+                        matr[i][j][l] = mul1.subtract(mul2);
+                    }
+                }
+                buf = matr[i][matr[i].length / 2 - 1][matr[i].length / 2 - 1];
+            } else {
+                buf = matr[i][matr[i].length / 2][matr[i].length / 2];
+            }
+
+
+
+            for (int k = matr[i].length - 2; k > 0; k--) {
+                for (int j = 0; j < k; j++) {
+                    for (int l = 0; l < k; l++) {
+                        BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
+                        BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
+                        matr[i][j][l] = mul1.subtract(mul2);
+                    }
+                }
+            }
+
+            for (int j = 0; j < matr[i].length - 2; j++) {
+                matr[i][0][0] = matr[i][0][0].divide(buf, SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
+            }
+            result[i] = matr[i][0][0].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
+        }
+
+        for (BigDecimal x : result) {
+            System.out.println(x);
+        }
+
         return result;
     }
 
-    private static double[][] mulTwoMatrices(double[][] matr1, double[][] matr2) {
-        double[][] result = new double[matr1.length][matr2[0].length];
+    private static BigDecimal[][] mulTwoMatrices(BigDecimal[][] matr1, BigDecimal[][] matr2) {
+        BigDecimal[][] result = new BigDecimal[matr1.length][matr2[0].length];
 
         for (int i = 0; i < matr1.length; i++) {
             for (int j = 0; j < matr2[0].length; j++) {
-                double temp = 0;
+                BigDecimal temp = new BigDecimal(0);
                 for (int l = 0; l < matr2.length; l++) {
-                    temp += matr1[i][l] * matr2[l][j];
+                    temp = temp.add(matr1[i][l].multiply(matr2[l][j]));
                 }
                 result[i][j] = temp;
             }
@@ -154,21 +227,28 @@ public class MatrixFunctions {
         return result;
     }
 
-    private static double[][] removeZerosFromDiagonal(double[][] matr) {
+    private static void removeZerosFromDiagonal(BigDecimal[][] matr, int[] positions) {
         for (int i = 0; i < matr.length; i++) {
-            if (matr[i][i] == 0) {
-                double[] movedLine = new double[matr.length];
+            positions[i] = i;
+        }
+
+        for (int i = 0; i < matr.length; i++) {
+            if (matr[i][i].signum() == 0) {
+                BigDecimal[] movedLine = new BigDecimal[matr.length];
                 System.arraycopy(matr[i], 0, movedLine, 0, matr.length);
 
                 for (int j = 0; j < matr.length; j++) {
-                    if (matr[j][i] != 0 && matr[i][j] != 0) {
+                    if (matr[j][i].signum() != 0 && matr[i][j].signum() != 0) {
                         System.arraycopy(matr[j], 0, matr[i], 0, matr.length);
                         System.arraycopy(movedLine, 0, matr[j], 0, matr.length);
+
+                        int buf = positions[i];
+                        positions[i] = positions[j];
+                        positions[j] = buf;
                         break;
                     }
                 }
             }
         }
-        return matr;
     }
 }

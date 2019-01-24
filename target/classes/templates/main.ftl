@@ -7,7 +7,7 @@
 <form method="post" action="answer">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="row">
-        <div class="col-mx-5 mr-3">
+        <div class="col-mx-5 mr-3 mb-3">
             <span>Операция:</span>
             <div class="btn-group">
                 <button type="button" id="operators" class="btn btn-sm btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Сложение</button>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-mx-5">
+        <div class="col-mx-5 mb-3">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="mr-1">Кол-во матриц:</span>
@@ -36,22 +36,22 @@
             </div>
         </div>
     </div>
-    <div class="row mb-3 mt-3">
+    <div class="row">
         <div style="overflow-x: auto">
             <table class="table table-bordered table-sm">
                 <thead>
                 <tr id="header" style="display: none">
                     <th scope="col">Номер матрицы</th>
-                    <th id="s-head0" scope="col" style="display: none"><center>1</center></th>
-                    <th id="s-head1" scope="col" style="display: none"><center>2</center></th>
-                    <th id="s-head2" scope="col" style="display: none"><center>3</center></th>
-                    <th id="s-head3" scope="col" style="display: none"><center>4</center></th>
-                    <th id="s-head4" scope="col" style="display: none"><center>5</center></th>
-                    <th id="s-head5" scope="col" style="display: none"><center>6</center></th>
-                    <th id="s-head6" scope="col" style="display: none"><center>7</center></th>
-                    <th id="s-head7" scope="col" style="display: none"><center>8</center></th>
-                    <th id="s-head8" scope="col" style="display: none"><center>9</center></th>
-                    <th id="s-head9" scope="col" style="display: none"><center>10</center></th>
+                    <th id="s-head0" scope="col" style="display: none"><center>A</center></th>
+                    <th id="s-head1" scope="col" style="display: none"><center>B</center></th>
+                    <th id="s-head2" scope="col" style="display: none"><center>C</center></th>
+                    <th id="s-head3" scope="col" style="display: none"><center>D</center></th>
+                    <th id="s-head4" scope="col" style="display: none"><center>E</center></th>
+                    <th id="s-head5" scope="col" style="display: none"><center>F</center></th>
+                    <th id="s-head6" scope="col" style="display: none"><center>G</center></th>
+                    <th id="s-head7" scope="col" style="display: none"><center>H</center></th>
+                    <th id="s-head8" scope="col" style="display: none"><center>I</center></th>
+                    <th id="s-head9" scope="col" style="display: none"><center>J</center></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -104,17 +104,17 @@
     </div>
     <div class="row">
         <div class="d-inline-flex flex-row" style="overflow-x: auto">
-            <@d.div id=0></@d.div>
+            <@d.div id=0 header="A"></@d.div>
             <div id="op0" class="d-inline-flex flex-column p-1">+</div>
-            <@d.div id=1></@d.div>
-            <@i.input number=2></@i.input>
-            <@i.input number=3></@i.input>
-            <@i.input number=4></@i.input>
-            <@i.input number=5></@i.input>
-            <@i.input number=6></@i.input>
-            <@i.input number=7></@i.input>
-            <@i.input number=8></@i.input>
-            <@i.input number=9></@i.input>
+            <@d.div id=1 header="B"></@d.div>
+            <@i.input number=2 header="C"></@i.input>
+            <@i.input number=3 header="D"></@i.input>
+            <@i.input number=4 header="E"></@i.input>
+            <@i.input number=5 header="F"></@i.input>
+            <@i.input number=6 header="G"></@i.input>
+            <@i.input number=7 header="H"></@i.input>
+            <@i.input number=8 header="I"></@i.input>
+            <@i.input number=9 header="J"></@i.input>
         </div>
     </div>
     <div class="row mt-3">
@@ -122,9 +122,7 @@
     </div>
 </form>
 <div class="row mt-3">
-    <div style="overflow-x: auto" id="answer">
-        <table class="table table-bordered table-sm" id="result"></table>
-    </div>
+    <div class="d-inline-flex flex-row" style="overflow-x: auto" id="answer"></div>
 </div>
 
 <script src="static/operator.js"></script>

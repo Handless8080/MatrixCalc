@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @Controller
 public class MatrixController {
     @GetMapping("/")
@@ -20,8 +22,8 @@ public class MatrixController {
     }
 
     @PostMapping("/sum-sub-mul")
-    public @ResponseBody double[][] showAnswer1(@RequestBody Matrices matrices) {
-        double[][][] values = matrices.getNumbers();
+    public @ResponseBody BigDecimal[][] showAnswer1(@RequestBody Matrices matrices) {
+        BigDecimal[][][] values = matrices.getNumbers();
 
         switch (matrices.getOperator()) {
             case "Сложение":
@@ -37,8 +39,8 @@ public class MatrixController {
     }
 
     @PostMapping("/pow-rev-tran")
-    public @ResponseBody double[][][] showAnswer2(@RequestBody Matrices matrices) {
-        double[][][] values = matrices.getNumbers();
+    public @ResponseBody BigDecimal[][][] showAnswer2(@RequestBody Matrices matrices) {
+        BigDecimal[][][] values = matrices.getNumbers();
 
         switch (matrices.getOperator()) {
             case "Воззведение в степень":
@@ -53,9 +55,9 @@ public class MatrixController {
     }
 
     @PostMapping("/det-rank")
-    public @ResponseBody double[] showAnswer3(@RequestBody Matrices matrices) {
-        double[][][] values = matrices.getNumbers();
-        double[] result = new double[values.length];
+    public @ResponseBody BigDecimal[] showAnswer3(@RequestBody Matrices matrices) {
+        BigDecimal[][][] values = matrices.getNumbers();
+        BigDecimal[] result = new BigDecimal[values.length];
 
         switch (matrices.getOperator()) {
             case "Найти ранг":
