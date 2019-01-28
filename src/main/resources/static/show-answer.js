@@ -36,8 +36,10 @@ $(document).ready(function() {
                         showMatrices(result);
                         break;
                     case "d":
+                        showValues(result, "det");
+                        break;
                     case "m":
-                        showValues(result);
+                        showValues(result, "m");
                 }
 			}
 		});
@@ -137,20 +139,16 @@ function showMatrices(result) {
     }
 }
 
-function showValues(result) {
+function showValues(result, valueType) {
     for (var t = 0; t < result.length; t++) {
         var div = document.createElement('div');
         div.classList.add('d-inline-flex');
         div.classList.add('flex-column');
         div.classList.add('mr-3');
 
-        var center = document.createElement('center');
-        center.innerHTML = String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10));
-
         var span = document.createElement('span');
-        span.innerHTML = "det = " + result[t];
+        span.innerHTML = valueType + "(" + String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10)) + ") = " + result[t];
 
-        div.appendChild(center);
         div.appendChild(span);
         document.getElementById('answer').appendChild(div);
     }

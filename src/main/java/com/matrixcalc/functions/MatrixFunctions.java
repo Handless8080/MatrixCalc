@@ -132,84 +132,50 @@ public class MatrixFunctions {
         return finalResult;
     }
 
-    /*public static BigDecimal[] det(BigDecimal[][]... matr) {
-        BigDecimal[] result = new BigDecimal[matr.length];
-
-        for (int i = 0; i < matr.length; i++) {
-            BigDecimal[][][] buf = new BigDecimal[matr[i].length][][];
-            buf[matr[i].length - 1] = new BigDecimal[matr[i].length][matr[i].length];
-            for (int j = 0; j < matr[i].length; j++) {
-                System.arraycopy(matr[i][j], 0, buf[matr[i].length - 1][j], 0, matr[i].length);
-            }
-
-            for (int j = 0; j < matr[i].length - 1; j++) {
-                for (int l = 0; l < matr[i].length - 1; l++) {
-                    BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
-                    BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
-                    matr[i][j][l] = mul1.subtract(mul2);
-                }
-            }
-
-            for (int k = matr[i].length - 2; k > 0; k--) {
-                buf[k] = new BigDecimal[k + 1][k + 1];
-
-                for (int j = 0; j < k; j++) {
-                    for (int l = 0; l < k; l++) {
-                        buf[k][j][l] = matr[i][j][l];
-                        BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
-                        BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
-                        BigDecimal sub = mul1.subtract(mul2);
-                        matr[i][j][l] = sub.divide(buf[k + 1][j + 1][l + 1], SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
-                    }
-                }
-            }
-            result[i] = matr[i][0][0].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
-
-        }
-        return result;
-    }*/
-
     public static BigDecimal[] det(BigDecimal[][]... matr) {
         BigDecimal[] result = new BigDecimal[matr.length];
-        BigDecimal buf;
 
         for (int i = 0; i < matr.length; i++) {
-            if (matr[i].length % 2 == 0) {
-                for (int j = 0; j < matr[i].length - 1; j++) {
-                    for (int l = 0; l < matr[i].length - 1; l++) {
-                        BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
-                        BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
-                        matr[i][j][l] = mul1.subtract(mul2);
-                    }
-                }
-                buf = matr[i][matr[i].length / 2 - 1][matr[i].length / 2 - 1];
-            } else {
-                buf = matr[i][matr[i].length / 2][matr[i].length / 2];
+            Gauss(matr[i]);
+            result[i] = matr[i].length % 2 == 0 ? new BigDecimal(1) : new BigDecimal(-1);
+
+            for (int j = 0; j < matr[i].length; j++) {
+                result[i] = result[i].multiply(matr[i][j][j]);
             }
-
-
-
-            for (int k = matr[i].length - 2; k > 0; k--) {
-                for (int j = 0; j < k; j++) {
-                    for (int l = 0; l < k; l++) {
-                        BigDecimal mul1 = matr[i][j][l].multiply(matr[i][j + 1][l + 1]);
-                        BigDecimal mul2 = matr[i][j][l + 1].multiply(matr[i][j + 1][l]);
-                        matr[i][j][l] = mul1.subtract(mul2);
-                    }
-                }
-            }
-
-            for (int j = 0; j < matr[i].length - 2; j++) {
-                matr[i][0][0] = matr[i][0][0].divide(buf, SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
-            }
-            result[i] = matr[i][0][0].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
+            result[i] = result[i].setScale(SCALE_FOR_ANSWER, BigDecimal.ROUND_HALF_UP);
         }
-
-        for (BigDecimal x : result) {
-            System.out.println(x);
-        }
-
         return result;
+    }
+
+    private static void Gauss(BigDecimal[][] matr) {
+        for (int i = 0; i < matr.length - 1; i++) {
+
+            if (matr[i][i].signum() == 0) {
+                for (int l = i + 1; l < matr.length - 1; l++) {
+
+                    if (matr[l][i].signum() != 0) {
+                        BigDecimal[] buf = new BigDecimal[matr.length];
+
+                        System.arraycopy(matr[l], 0, buf, 0, matr.length);
+                        System.arraycopy(matr[i], 0, matr[l], 0, matr.length);
+                        System.arraycopy(buf, 0, matr[i], 0, matr.length);
+                    }
+                }
+            }
+
+            if (matr[i][i].signum() == 0) {
+                continue;
+            }
+
+            for (int j = i + 1; j < matr.length; j++) {
+                BigDecimal mul = matr[j][i].divide(matr[i][i], SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
+                matr[j][i] = new BigDecimal(0);
+
+                for (int l = i + 1; l < matr.length; l++) {
+                    matr[j][l] = matr[i][l].multiply(mul).subtract(matr[j][l]);
+                }
+            }
+        }
     }
 
     private static BigDecimal[][] mulTwoMatrices(BigDecimal[][] matr1, BigDecimal[][] matr2) {
