@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Controller
 public class MatrixController {
     @GetMapping("/")
-    public String main (Model model) {
+    public String main () {
         return "main";
     }
 
@@ -44,6 +44,7 @@ public class MatrixController {
 
         switch (matrices.getOperator()) {
             case "Воззведение в степень":
+                values = MatrixFunctions.pow(matrices.getParams(), values);
                 break;
             case "Найти обратную":
                 values = MatrixFunctions.inverse(values);
@@ -61,6 +62,7 @@ public class MatrixController {
 
         switch (matrices.getOperator()) {
             case "Найти ранг":
+                result = MatrixFunctions.rank(values);
                 break;
             case "Найти определитель":
                 result = MatrixFunctions.det(values);

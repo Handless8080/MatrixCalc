@@ -1,6 +1,7 @@
 package com.matrixcalc.functions;
 
 import java.math.BigDecimal;
+import java.util.Stack;
 
 public class MatrixFunctions {
     private static final int SCALE_FOR_CALC = 8;
@@ -61,27 +62,12 @@ public class MatrixFunctions {
     public static BigDecimal[][][] inverse(BigDecimal[][]... matr) {
         BigDecimal[][][] result = new BigDecimal[matr.length][][];
         BigDecimal[][][] finalResult = new BigDecimal[matr.length][][];
-
         BigDecimal[][][] clone = new BigDecimal[matr.length][][];
-        for (int i = 0; i < matr.length; i++) {
-            clone[i] = new BigDecimal[matr[i].length][matr[i].length];
-
-            for (int j = 0; j < matr[i].length; j++) {
-                System.arraycopy(matr[i][j], 0, clone[i][j], 0, matr[i].length);
-            }
-        }
 
         BigDecimal[] det = det(clone);
-
         for (int i = 0; i < matr.length; i++) {
-            result[i] = new BigDecimal[matr[i].length][matr[i].length];
-
-            for (int j = 0; j < matr[i].length; j++) {
-                for (int l = 0; l < matr[i].length; l++) {
-                    result[i][j][l] = new BigDecimal(0);
-                }
-                result[i][j][j] = new BigDecimal(1);
-            }
+            clone[i] = cloneArray(matr[i]);
+            result[i] = getDiagonalMatrix(matr[i].length);
         }
 
         for (int i = 0; i < matr.length; i++) {
@@ -132,12 +118,34 @@ public class MatrixFunctions {
         return finalResult;
     }
 
+    public static BigDecimal[][][] pow(int[] params, BigDecimal[][]... matr) {
+        BigDecimal[][][] result = new BigDecimal[matr.length][][];
+
+        for (int i = 0; i < matr.length; i++) {
+            int count = 0;
+            Stack<Boolean> mulParams = new Stack<>();
+            for (int j = params[i]; j > 1; j /= 2) {
+                count++;
+                mulParams.push((j & 1) != 0);
+            }
+
+            BigDecimal[][] start = cloneArray(matr[i]);
+            for (int j = count - 1; j >= 0; j--) {
+                matr[i] = mulTwoMatrices(matr[i], matr[i]);
+                if (mulParams.pop()) {
+                    matr[i] = mulTwoMatrices(matr[i], start);
+                }
+            }
+        }
+        return result;
+    }
+
     public static BigDecimal[] det(BigDecimal[][]... matr) {
         BigDecimal[] result = new BigDecimal[matr.length];
 
         for (int i = 0; i < matr.length; i++) {
             Gauss(matr[i]);
-            result[i] = matr[i].length % 2 == 0 ? new BigDecimal(1) : new BigDecimal(-1);
+            result[i] = Gauss(matr[i]) ? new BigDecimal(-1) : new BigDecimal(1);
 
             for (int j = 0; j < matr[i].length; j++) {
                 result[i] = result[i].multiply(matr[i][j][j]);
@@ -147,18 +155,43 @@ public class MatrixFunctions {
         return result;
     }
 
-    private static void Gauss(BigDecimal[][] matr) {
-        for (int i = 0; i < matr.length - 1; i++) {
+    public static BigDecimal[] rank(BigDecimal[][]... matr) {
+        BigDecimal[] ranks = new BigDecimal[matr.length];
+        BigDecimal inc = new BigDecimal(1);
+
+        for (int i = 0; i < matr.length; i++) {
+            Gauss(matr[i]);
+            ranks[i] = new BigDecimal(0);
+
+            for (int j = 0; j < matr[i].length; j++) {
+                for (int l = 0; l < matr[i][0].length; l++) {
+
+                    if (matr[i][j][l].signum() != 0) {
+                        ranks[i] = ranks[i].add(inc);
+                        break;
+                    }
+                }
+            }
+        }
+        return ranks;
+    }
+
+    private static boolean Gauss(BigDecimal[][] matr) {
+        int size = matr.length > matr[0].length ? matr[0].length : matr.length;
+        boolean sign = false;
+
+        for (int i = 0; i < size - 1; i++) {
 
             if (matr[i][i].signum() == 0) {
-                for (int l = i + 1; l < matr.length - 1; l++) {
+                for (int l = i + 1; l < matr.length; l++) {
 
                     if (matr[l][i].signum() != 0) {
-                        BigDecimal[] buf = new BigDecimal[matr.length];
+                        BigDecimal[] buf = new BigDecimal[matr[0].length];
 
-                        System.arraycopy(matr[l], 0, buf, 0, matr.length);
-                        System.arraycopy(matr[i], 0, matr[l], 0, matr.length);
-                        System.arraycopy(buf, 0, matr[i], 0, matr.length);
+                        System.arraycopy(matr[l], 0, buf, 0, matr[0].length);
+                        System.arraycopy(matr[i], 0, matr[l], 0, matr[0].length);
+                        System.arraycopy(buf, 0, matr[i], 0, matr[0].length);
+                        sign = !sign;
                     }
                 }
             }
@@ -171,11 +204,13 @@ public class MatrixFunctions {
                 BigDecimal mul = matr[j][i].divide(matr[i][i], SCALE_FOR_CALC, BigDecimal.ROUND_HALF_UP);
                 matr[j][i] = new BigDecimal(0);
 
-                for (int l = i + 1; l < matr.length; l++) {
-                    matr[j][l] = matr[i][l].multiply(mul).subtract(matr[j][l]);
+                for (int l = i + 1; l < matr[0].length; l++) {
+                    BigDecimal sub = matr[i][l].multiply(mul);
+                    matr[j][l] = matr[j][l].subtract(sub);
                 }
             }
         }
+        return sign;
     }
 
     private static BigDecimal[][] mulTwoMatrices(BigDecimal[][] matr1, BigDecimal[][] matr2) {
@@ -216,5 +251,26 @@ public class MatrixFunctions {
                 }
             }
         }
+    }
+
+    private static BigDecimal[][] cloneArray(BigDecimal[][] array) {
+        BigDecimal[][] clone = new BigDecimal[array.length][array[0].length];
+
+        for (int i = 0; i < array.length; i++) {
+            System.arraycopy(array[i], 0, clone[i], 0, array.length);
+        }
+        return clone;
+    }
+
+    private static BigDecimal[][] getDiagonalMatrix(int dimension) {
+        BigDecimal[][] result = new BigDecimal[dimension][dimension];
+
+        for (int j = 0; j < dimension; j++) {
+            for (int l = 0; l < dimension; l++) {
+                result[j][l] = new BigDecimal(0);
+            }
+            result[j][j] = new BigDecimal(1);
+        }
+        return result;
     }
 }
