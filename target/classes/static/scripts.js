@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('btn-cols-count-less' + i).addEventListener('click', deleteColumns);
         document.getElementById('btn-cols-count-more' + i).addEventListener('click', createColumns);
+
+        document.getElementById('btn-params-count-less' + i).addEventListener('click', decreaseParam);
+        document.getElementById('btn-params-count-more' + i).addEventListener('click', increaseParam);
     }
 });
 
@@ -28,4 +31,20 @@ function createInput(t, i, j) {
     input.id = "number" + t + i + j;
     input.style.width = "50px";
     return input;
+}
+
+function increaseParam() {
+    var id = this.id,
+        index = id[parseInt(id.length, 10) - 1];
+
+    document.getElementById('param' + index).value++;
+}
+
+function decreaseParam() {
+    var id = this.id,
+        index = id[parseInt(id.length, 10) - 1];
+
+    if (index > 1) {
+        document.getElementById('param' + index).value--;
+    }
 }

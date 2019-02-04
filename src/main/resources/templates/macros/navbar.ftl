@@ -9,7 +9,7 @@
             <a class="nav-link nav-item text-white" href="#" style="font-size: 14pt; font-weight: ${font2}">Форум</a>
         </div>
         <div class="navbar-nav ml-auto">
-            <a class="nav-link nav-item" href="#" style="color: lightblue; font-size: 12pt">Авторизация</a>
+            <a class="nav-link nav-item" href="/login" style="color: lightblue; font-size: 12pt">Авторизация</a>
         </div>
     </div>
 </nav>

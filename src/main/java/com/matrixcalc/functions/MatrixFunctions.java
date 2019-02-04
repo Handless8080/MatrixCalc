@@ -119,8 +119,6 @@ public class MatrixFunctions {
     }
 
     public static BigDecimal[][][] pow(int[] params, BigDecimal[][]... matr) {
-        BigDecimal[][][] result = new BigDecimal[matr.length][][];
-
         for (int i = 0; i < matr.length; i++) {
             int count = 0;
             Stack<Boolean> mulParams = new Stack<>();
@@ -137,7 +135,7 @@ public class MatrixFunctions {
                 }
             }
         }
-        return result;
+        return matr;
     }
 
     public static BigDecimal[] det(BigDecimal[][]... matr) {

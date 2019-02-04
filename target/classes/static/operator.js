@@ -13,7 +13,6 @@ function setOperator() {
         document.getElementById('header').style.display = "none";
         document.getElementById('rows').style.display = "table-row";
         document.getElementById('params').style.display = "none";
-        document.getElementById('header').style.display = "none";
         for (var i = 1; i < tables; i++) {
             document.getElementById('td-col' + i).style.display = "none";
             document.getElementById('td-row' + i).style.display = "none";

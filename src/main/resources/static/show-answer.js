@@ -4,6 +4,7 @@ $(document).ready(function() {
 		var csrf = $("#csrf").val(),
 		    numbers = getNumbers(),
     	    operator = document.getElementById('operators').innerHTML,
+    	    params = getParams();
     	    Url = getURL();
 
 		$.ajax({
@@ -13,7 +14,8 @@ $(document).ready(function() {
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify({
 				'numbers': numbers,
-				'operator': operator
+				'operator': operator,
+				'params': params
 			}),
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader('X-CSRF-Token', csrf)
@@ -39,12 +41,22 @@ $(document).ready(function() {
                         showValues(result, "det");
                         break;
                     case "m":
-                        showValues(result, "m");
+                        showValues(result, "rank");
                 }
 			}
 		});
 	});
 });
+
+function getParams() {
+    var params = [],
+        tables = $('#matr-count').val();
+
+    for (var i = 0; i < tables; i++) {
+        params[i] = $('#param' + i).val();
+    }
+    return params;
+}
 
 function getNumbers() {
 	var numbers = [],
@@ -160,16 +172,19 @@ function createAnswerTable(t) {
     div.classList.add('flex-column');
     div.classList.add('mr-3');
 
-    var center = document.createElement('center');
-    center.innerHTML = String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10));
-
     var table = document.createElement('table');
     table.classList.add('table');
     table.classList.add('table-bordered');
     table.classList.add('table-sm');
     table.id = 'result' + t;
 
-    div.appendChild(center);
+    if (getOperator() != '+' && getOperator() != '-' && getOperator() != '*') {
+        var center = document.createElement('center');
+        center.innerHTML = String.fromCharCode(parseInt(CHAR_CODE, 10) + parseInt(t, 10));
+
+        div.appendChild(center);
+    }
+
     div.appendChild(table);
     document.getElementById('answer').appendChild(div);
 }

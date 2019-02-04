@@ -3,7 +3,6 @@ package com.matrixcalc.controllers;
 import com.matrixcalc.bodies.Matrices;
 import com.matrixcalc.functions.MatrixFunctions;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -13,12 +12,6 @@ public class MatrixController {
     @GetMapping("/")
     public String main () {
         return "main";
-    }
-
-    @GetMapping("/greeting")
-    public String greeting(Model model) {
-        model.addAttribute("message", "message");
-        return "greeting";
     }
 
     @PostMapping("/sum-sub-mul")
@@ -43,7 +36,7 @@ public class MatrixController {
         BigDecimal[][][] values = matrices.getNumbers();
 
         switch (matrices.getOperator()) {
-            case "Воззведение в степень":
+            case "Возведение в степень":
                 values = MatrixFunctions.pow(matrices.getParams(), values);
                 break;
             case "Найти обратную":

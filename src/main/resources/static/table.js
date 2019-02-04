@@ -56,6 +56,7 @@ function deleteTable() {
         document.getElementById('s-head' + (parseInt(matrCount, 10) - 1)).style.display = "none";
         document.getElementById('td-col' + (parseInt(matrCount, 10) - 1)).style.display = "none";
         document.getElementById('td-row' + (parseInt(matrCount, 10) - 1)).style.display = "none";
+        document.getElementById('td-param' + (parseInt(matrCount, 10) - 1)).style.display = "none";
 
         var id = parseInt(matrCount, 10) - 1;
 
@@ -74,7 +75,7 @@ function deleteTable() {
         d.style.visibility = "hidden";
 
         if (getOperator() == "^") {
-            document.getElementById('params' + id).style.display = "none";
+            document.getElementById('param' + id).style.display = "none";
         }
     }
 }
