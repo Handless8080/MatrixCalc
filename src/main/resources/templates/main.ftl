@@ -3,7 +3,7 @@
 <#import "macros/size-group.ftl" as s>
 <#import "macros/input-table.ftl" as i>
 
-<@h.head flag="true" header="Калькулятор" font1="bold" font2="normal">
+<@h.head header="Калькулятор" font1="bold" font2="normal" font3="normal">
 <form class="ml-2" method="post" action="answer">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="row">

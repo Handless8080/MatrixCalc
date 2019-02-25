@@ -1,14 +1,11 @@
 package com.matrixcalc.controllers;
 
-import com.matrixcalc.entities.Role;
 import com.matrixcalc.entities.User;
 import com.matrixcalc.repositories.UserRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Collections;
 
 @Controller
 public class RegistrationController {
@@ -24,7 +21,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model) {
+    public String addUser(User user, Model model, String passwordConfirm) {
         User userFromDB = userRepo.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
@@ -32,8 +29,14 @@ public class RegistrationController {
             return "registration";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        if (!user.getPassword().equals(passwordConfirm)) {
+            model.addAttribute("message", "Пароли не совпадают!");
+            return "registration";
+        }
+
+        user.setInitialParams();
+
+        user.setEmail("");
         userRepo.save(user);
 
         return "redirect:/login";
