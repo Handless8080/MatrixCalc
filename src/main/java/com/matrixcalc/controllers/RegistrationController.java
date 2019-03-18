@@ -1,18 +1,23 @@
 package com.matrixcalc.controllers;
 
 import com.matrixcalc.entities.User;
-import com.matrixcalc.repositories.UserRepo;
+import com.matrixcalc.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class RegistrationController {
-    private final UserRepo userRepo;
 
-    public RegistrationController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    private final UserService userService;
+
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/registration")
@@ -21,24 +26,32 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model, String passwordConfirm) {
-        User userFromDB = userRepo.findByUsername(user.getUsername());
+    public String addUser(
+            User user,
+            String passwordConfirm,
+            MultipartFile file,
+            Model model
+    ) throws IOException {
+        String result = userService.addUser(user, passwordConfirm, file);
 
-        if (userFromDB != null) {
-            model.addAttribute("message", "Такой пользователь уже существует!");
+        if (result != null) {
+            model.addAttribute("message", result);
             return "registration";
         }
-
-        if (!user.getPassword().equals(passwordConfirm)) {
-            model.addAttribute("message", "Пароли не совпадают!");
-            return "registration";
-        }
-
-        user.setInitialParams();
-
-        user.setEmail("");
-        userRepo.save(user);
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/activate/{code}")
+    private String activation(Model model, @PathVariable String code) {
+        boolean isActivated = userService.activateUser(code);
+
+        if (isActivated) {
+            model.addAttribute("activate", "Почта успешно привязана");
+        } else {
+            model.addAttribute("activate", "Код активации не найден");
+        }
+
+        return "/login";
     }
 }

@@ -21,6 +21,9 @@ public class User implements UserDetails {
     private boolean active;
 
     private String email;
+    private String activationCode;
+
+    private String avatarFileName;
 
     private Date createAccountDate;
     private int themeCount;
@@ -32,6 +35,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    public String getDate() {
+        return createAccountDate.toString().substring(0, 16);
+    }
+
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
@@ -41,9 +48,14 @@ public class User implements UserDetails {
         active = true;
 
         createAccountDate = new Date();
-        themeCount = 0;
-        messageCount = 0;
-        rate = 0;
+    }
+
+    public String getAvatarFileName() {
+        return avatarFileName;
+    }
+
+    public void setAvatarFileName(String avatarFileName) {
+        this.avatarFileName = avatarFileName;
     }
 
     public String getEmail() {
@@ -52,6 +64,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     public Date getCreateAccountDate() {

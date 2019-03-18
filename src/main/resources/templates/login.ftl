@@ -9,6 +9,11 @@
     </div>
     <div class="row justify-content-center mt-5">
         <div class="col-auto">
+            <#if activate??>
+            <div class="alert alert-success" role="alert">
+                ${activate}
+            </div>
+            </#if>
             <form action="/login" method="post">
                 <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
                 <div class="input-group flex-nowrap p-3">
@@ -27,7 +32,7 @@
                     <button class="btn btn-sm btn-primary ml-3 mt-3" type="submit" style="width: 278px">Войти</button>
                 </div>
                 <div class="mt-3" style="width: 100%; height: 15px; border-bottom: 1px solid black; text-align: center">
-                    <span style="background-color: #F3F5F6; padding: 0 5px">
+                    <span style="background-color: white; padding: 0 5px">
                         или
                     </span>
                 </div>
@@ -38,7 +43,7 @@
 
             <#if message??>
             <div class="alert alert-danger" role="alert">
-                A simple danger alert—check it out!
+                ${message}
             </div>
             </#if>
         </div>
