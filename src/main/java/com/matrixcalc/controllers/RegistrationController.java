@@ -28,16 +28,17 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(
             User user,
-            String passwordConfirm,
             MultipartFile file,
             Model model
     ) throws IOException {
-        String result = userService.addUser(user, passwordConfirm, file);
+        String result = userService.addUser(user, file);
 
         if (result != null) {
-            model.addAttribute("message", result);
+            model.addAttribute("warning", result);
             return "registration";
         }
+
+        model.addAttribute("success", "Аккаунт успешно создан");
 
         return "redirect:/login";
     }
@@ -47,9 +48,9 @@ public class RegistrationController {
         boolean isActivated = userService.activateUser(code);
 
         if (isActivated) {
-            model.addAttribute("activate", "Почта успешно привязана");
+            model.addAttribute("success", "Почта успешно привязана");
         } else {
-            model.addAttribute("activate", "Код активации не найден");
+            model.addAttribute("warning", "Код активации не найден");
         }
 
         return "/login";

@@ -3,7 +3,7 @@
 <#import "macros/size-group.ftl" as s>
 <#import "macros/input-table.ftl" as i>
 
-<@h.head header="Калькулятор" font1="bold" font2="normal" font3="normal">
+<@h.head header = "Калькулятор" font1 = "bold" font2 = "normal" font3 = "normal">
 <form class="ml-2" method="post" action="answer">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="row">
@@ -59,44 +59,44 @@
                     <th scope="col" id="col-header">
                         <div style="min-width: 140px">Кол-во столбцов</div>
                     </th>
-                    <@s.size dimension="col" id=0 display="table-cell" />
-                    <@s.size dimension="col" id=1 display="none" />
-                    <@s.size dimension="col" id=2 display="none" />
-                    <@s.size dimension="col" id=3 display="none" />
-                    <@s.size dimension="col" id=4 display="none" />
-                    <@s.size dimension="col" id=5 display="none" />
-                    <@s.size dimension="col" id=6 display="none" />
-                    <@s.size dimension="col" id=7 display="none" />
-                    <@s.size dimension="col" id=8 display="none" />
-                    <@s.size dimension="col" id=9 display="none" />
+                    <@s.size dimension = "col" id = 0 display = "table-cell" />
+                    <@s.size dimension = "col" id = 1 display = "none" />
+                    <@s.size dimension = "col" id = 2 display = "none" />
+                    <@s.size dimension = "col" id = 3 display = "none" />
+                    <@s.size dimension = "col" id = 4 display = "none" />
+                    <@s.size dimension = "col" id = 5 display = "none" />
+                    <@s.size dimension = "col" id = 6 display = "none" />
+                    <@s.size dimension = "col" id = 7 display = "none" />
+                    <@s.size dimension = "col" id = 8 display = "none" />
+                    <@s.size dimension = "col" id = 9 display = "none" />
                 </tr>
                 <tr id="rows">
                     <th scope="col" id="row-header">
                         <div style="min-width: 140px">Кол-во строк</div>
                     </th>
-                    <@s.size dimension="row" id=0 display="table-cell" />
-                    <@s.size dimension="row" id=1 display="none" />
-                    <@s.size dimension="row" id=2 display="none" />
-                    <@s.size dimension="row" id=3 display="none" />
-                    <@s.size dimension="row" id=4 display="none" />
-                    <@s.size dimension="row" id=5 display="none" />
-                    <@s.size dimension="row" id=6 display="none" />
-                    <@s.size dimension="row" id=7 display="none" />
-                    <@s.size dimension="row" id=8 display="none" />
-                    <@s.size dimension="row" id=9 display="none" />
+                    <@s.size dimension = "row" id = 0 display = "table-cell" />
+                    <@s.size dimension = "row" id = 1 display = "none" />
+                    <@s.size dimension = "row" id = 2 display = "none" />
+                    <@s.size dimension = "row" id = 3 display = "none" />
+                    <@s.size dimension = "row" id = 4 display = "none" />
+                    <@s.size dimension = "row" id = 5 display = "none" />
+                    <@s.size dimension = "row" id = 6 display = "none" />
+                    <@s.size dimension = "row" id = 7 display = "none" />
+                    <@s.size dimension = "row" id = 8 display = "none" />
+                    <@s.size dimension = "row" id = 9 display = "none" />
                 </tr>
                 <tr id="params" style="display: none">
                     <th scope="col" id="param-header">Степень</th>
-                    <@s.size dimension="param" id=0 display="none" />
-                    <@s.size dimension="param" id=1 display="none" />
-                    <@s.size dimension="param" id=2 display="none" />
-                    <@s.size dimension="param" id=3 display="none" />
-                    <@s.size dimension="param" id=4 display="none" />
-                    <@s.size dimension="param" id=5 display="none" />
-                    <@s.size dimension="param" id=6 display="none" />
-                    <@s.size dimension="param" id=7 display="none" />
-                    <@s.size dimension="param" id=8 display="none" />
-                    <@s.size dimension="param" id=9 display="none" />
+                    <@s.size dimension = "param" id = 0 display = "none" />
+                    <@s.size dimension = "param" id = 1 display = "none" />
+                    <@s.size dimension = "param" id = 2 display = "none" />
+                    <@s.size dimension = "param" id = 3 display = "none" />
+                    <@s.size dimension = "param" id = 4 display = "none" />
+                    <@s.size dimension = "param" id = 5 display = "none" />
+                    <@s.size dimension = "param" id = 6 display = "none" />
+                    <@s.size dimension = "param" id = 7 display = "none" />
+                    <@s.size dimension = "param" id = 8 display = "none" />
+                    <@s.size dimension = "param" id = 9 display = "none" />
                 </tr>
                 </tbody>
             </table>
@@ -104,17 +104,17 @@
     </div>
     <div class="row">
         <div class="d-inline-flex flex-row" style="overflow-x: auto">
-            <@d.div id=0 header="A" />
+            <@d.div id = 0 header = "A" />
             <div id="op0" class="d-inline-flex flex-column p-1">+</div>
-            <@d.div id=1 header="B" />
-            <@i.input number=2 header="C" />
-            <@i.input number=3 header="D" />
-            <@i.input number=4 header="E" />
-            <@i.input number=5 header="F" />
-            <@i.input number=6 header="G" />
-            <@i.input number=7 header="H" />
-            <@i.input number=8 header="I" />
-            <@i.input number=9 header="J" />
+            <@d.div id = 1 header = "B" />
+            <@i.input number = 2 header = "C" />
+            <@i.input number = 3 header = "D" />
+            <@i.input number = 4 header = "E" />
+            <@i.input number = 5 header = "F" />
+            <@i.input number = 6 header = "G" />
+            <@i.input number = 7 header = "H" />
+            <@i.input number = 8 header = "I" />
+            <@i.input number = 9 header = "J" />
         </div>
     </div>
     <div class="row mt-3">

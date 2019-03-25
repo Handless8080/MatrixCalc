@@ -32,21 +32,10 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsername(username);
     }
 
-    public String addUser(User user, String passwordConfirm, MultipartFile file) throws IOException {
-        User userFromDB = userRepo.findByUsername(user.getUsername());
-
-        if (userFromDB != null) {
-            return "Такой пользователь уже существует!";
-        }
-
-        if (!user.getPassword().equals(passwordConfirm)) {
-            return "Пароли не совпадают!";
-        }
-
-        user.setInitialParams();
-        user.setActivationCode(UUID.randomUUID().toString());
-
+    private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
+            user.setActivationCode(UUID.randomUUID().toString());
+
             String message = String.format(
                     "Здравствуйте, %s! \n" +
                             "Добро пожаловать на наш сервис MatrixCalc. Пожалуйста, посетите следующую ссылку для подтверждения вашей электронной почты: http://localhost:8080/activate/%s",
@@ -56,6 +45,18 @@ public class UserService implements UserDetailsService {
 
             mailSender.send(user.getEmail(), "Код активации", message);
         }
+    }
+
+    public String addUser(User user, MultipartFile file) throws IOException {
+        User userFromDB = userRepo.findByUsername(user.getUsername());
+
+        if (userFromDB != null) {
+            return "Такой пользователь уже существует!";
+        }
+
+        user.setInitialParams();
+
+        sendMessage(user);
 
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             String uuidFile = UUID.randomUUID().toString();
@@ -83,5 +84,34 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
 
         return true;
+    }
+
+    public void changeUserData(User user, String nickname, String password, String email) {
+        String userEmail = user.getEmail();
+
+        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
+                (userEmail != null && !userEmail.equals(email));
+
+        if (isEmailChanged) {
+            user.setEmail(email);
+
+            if (!StringUtils.isEmpty(email)) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        if (!StringUtils.isEmpty(password) && !user.getPassword().equals(password)) {
+            user.setPassword(password);
+        }
+
+        if (!StringUtils.isEmpty(nickname) && !user.getNickname().equals(nickname)) {
+            user.setNickname(nickname);
+        }
+
+        userRepo.save(user);
+
+        if (isEmailChanged) {
+            sendMessage(user);
+        }
     }
 }

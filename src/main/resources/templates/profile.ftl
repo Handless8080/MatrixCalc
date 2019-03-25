@@ -2,7 +2,7 @@
 
 <#include "macros/security.ftl">
 
-<@h.head header="Профиль" font1="normal" font2="normal" font3="bold">
+<@h.head header = "Профиль" font1 = "normal" font2 = "normal" font3 = "bold">
 <div class="border border-secondary rounded p-5" style="margin-left: auto; margin-right: auto; width: 600px">
     <div class="row justify-content-center">
         <div class="col-auto">
@@ -35,11 +35,35 @@
         Логин: ${user.getUsername()}
     </div>
     <div class="row">
-        <#if user.getEmail() = "">
-        Электронная почта: не привязана
-        <#else>
-        Электронная почта: ${user.getUsername()}
-        </#if>
+        <div class="input-group flex-nowrap p-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping-nickname" style="width: 80px">Имя</span>
+            </div>
+            <input value="${user.getNickname()}" type="text" class="form-control" name="nickname" placeholder="nickname" aria-describedby="addon-wrapping-nickname">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group flex-nowrap p-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping-mail" style="width: 80px">Почта</span>
+            </div>
+            <#if user.getEmail()??>
+            <input type="email" class="form-control" name="email" placeholder="example@email.com" aria-describedby="addon-wrapping-password">
+            <#else>
+            <input value="${user.getEmail()}" type="email" class="form-control" name="email" placeholder="example@email.com" aria-describedby="addon-wrapping-password">
+            </#if>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group flex-nowrap p-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="addon-wrapping-password" style="width: 80px">Пароль</span>
+            </div>
+            <input value="${user.getPassword()}" type="password" class="form-control" name="password" placeholder="password" aria-describedby="addon-wrapping-password">
+        </div>
+    </div>
+    <div class="row">
+        <input type="file" name="file">
     </div>
 </div>
 </@h.head>

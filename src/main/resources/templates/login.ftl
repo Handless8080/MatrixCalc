@@ -1,6 +1,6 @@
 <#import "macros/head.ftl" as h>
 
-<@h.head font1="normal" font2="normal" font3="bold" header="Авторизация">
+<@h.head font1 = "normal" font2 = "normal" font3 = "bold" header = "Авторизация">
 <div class="border border-secondary rounded p-5" style="margin-left: auto; margin-right: auto; width: 400px">
     <div class="row justify-content-center">
         <div class="col-auto">
@@ -9,11 +9,8 @@
     </div>
     <div class="row justify-content-center mt-5">
         <div class="col-auto">
-            <#if activate??>
-            <div class="alert alert-success" role="alert">
-                ${activate}
-            </div>
-            </#if>
+            <#include "macros/alert-success.ftl">
+
             <form action="/login" method="post">
                 <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
                 <div class="input-group flex-nowrap p-3">
@@ -41,11 +38,7 @@
                 </div>
             </form>
 
-            <#if message??>
-            <div class="alert alert-danger" role="alert">
-                ${message}
-            </div>
-            </#if>
+            <#include "macros/alert-danger.ftl">
         </div>
     </div>
 </div>

@@ -51,11 +51,7 @@
                 </div>
             </form>
 
-            <#if message??>
-            <div class="alert alert-danger mt-3" role="alert">
-                ${message}
-            </div>
-            </#if>
+            <#include "macros/alert-danger.ftl">
         </div>
     </div>
 </div>

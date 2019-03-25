@@ -1,6 +1,6 @@
 <#import "macros/head.ftl" as h>
 
-<@h.head font1="normal" font2="normal" font3="normal" header="Регистрация">
+<@h.head font1 = "normal" font2 = "normal" font3 = "normal" header = "Регистрация">
 <div class="border border-secondary rounded p-5" style="margin-left: auto; margin-right: auto; width: 400px">
     <div class="row justify-content-center">
         <div class="col-auto">
@@ -51,11 +51,7 @@
                 </div>
             </form>
 
-            <#if message??>
-            <div class="alert alert-danger mt-3" role="alert">
-                ${message}
-            </div>
-            </#if>
+            <#include "macros/alert-danger.ftl">
         </div>
     </div>
 </div>
