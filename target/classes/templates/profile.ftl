@@ -2,8 +2,11 @@
 
 <#include "macros/security.ftl">
 
-<@h.head header="Профиль" font1="normal" font2="normal" font3="bold">
+<@h.head header = "Профиль" font1 = "normal" font2 = "normal" font3 = "bold">
+
 <div class="border border-secondary rounded p-5" style="margin-left: auto; margin-right: auto; width: 600px">
+    <#include "macros/alert-success.ftl">
+
     <div class="row justify-content-center">
         <div class="col-auto">
             <h6 style="font-size: 24px">${name}</h6>
@@ -34,12 +37,52 @@
     <div class="row">
         Логин: ${user.getUsername()}
     </div>
-    <div class="row">
-        <#if user.getEmail() = "">
-        Электронная почта: не привязана
-        <#else>
-        Электронная почта: ${user.getUsername()}
-        </#if>
-    </div>
+    <form action="/profile" method="post">
+        <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
+        <div class="row">
+            <div class="input-group flex-nowrap pt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping-nickname" style="width: 80px">Имя</span>
+                </div>
+                <input value="${user.getNickname()}" type="text" class="form-control" name="nickname" placeholder="nickname" aria-describedby="addon-wrapping-nickname">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group flex-nowrap pt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping-mail" style="width: 80px">Почта</span>
+                </div>
+                <#if !user.getEmail()??>
+                <input type="email" class="form-control" name="email" placeholder="example@email.com" aria-describedby="addon-wrapping-password">
+                <#else>
+                <input value="${user.getEmail()}" type="email" class="form-control" name="email" placeholder="example@email.com" aria-describedby="addon-wrapping-password">
+            </#if>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group flex-nowrap pt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping-password" style="width: 80px">Пароль</span>
+                </div>
+                <input value="${user.getPassword()}" type="password" class="form-control" name="password" placeholder="password" aria-describedby="addon-wrapping-password">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group flex-nowrap pt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping-file" style="width: 80px">Аватар</span>
+                </div>
+
+                <div class="input-group-append">
+                    <label class="btn btn-success">
+                        Выберите файл<input type="file" name="file" hidden>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-sm btn-primary mt-3" type="submit">Сохранить</button>
+        </div>
+    </form>
 </div>
 </@h.head>

@@ -1,9 +1,11 @@
 package com.matrixcalc.entities;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -15,11 +17,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Length(min = 4, max = 15, message = "Длина логина должна быть от 4 до 15")
     private String username;
+    @Length(min = 4, max = 15, message = "Длина имени должна быть от 4 до 15")
     private String nickname;
+    @Length(min = 5, max = 20, message = "Длина пароля должна быть от 5 до 20")
     private String password;
     private boolean active;
 
+    @Email(message = "Почта указана неверно")
     private String email;
     private String activationCode;
 

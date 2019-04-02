@@ -4,12 +4,15 @@ import com.matrixcalc.entities.User;
 import com.matrixcalc.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 public class RegistrationController {
@@ -27,20 +30,31 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(
-            User user,
-            MultipartFile file,
-            Model model
+            @Valid User user,
+            BindingResult bindingResult,
+            Model model,
+            MultipartFile file
     ) throws IOException {
-        String result = userService.addUser(user, file);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
 
-        if (result != null) {
-            model.addAttribute("warning", result);
+            model.mergeAttributes(errors);
+            model.addAttribute("user", user);
+
             return "registration";
+        } else {
+
+            String result = userService.addUser(user, file);
+
+            if (result != null) {
+                model.addAttribute("warning", result);
+                return "registration";
+            }
+
+            model.addAttribute("success", "Аккаунт успешно создан");
+
+            return "login";
         }
-
-        model.addAttribute("success", "Аккаунт успешно создан");
-
-        return "redirect:/login";
     }
 
     @GetMapping("/activate/{code}")
@@ -53,6 +67,6 @@ public class RegistrationController {
             model.addAttribute("warning", "Код активации не найден");
         }
 
-        return "/login";
+        return "login";
     }
 }

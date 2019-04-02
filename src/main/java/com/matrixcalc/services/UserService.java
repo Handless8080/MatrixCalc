@@ -3,6 +3,7 @@ package com.matrixcalc.services;
 import com.matrixcalc.entities.User;
 import com.matrixcalc.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +30,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
+
+        if (user == null) {
+            throw new BadCredentialsException("Логин или пароль введены неверно");
+        }
+
+        return user;
     }
 
     private void sendMessage(User user) {
@@ -38,7 +45,7 @@ public class UserService implements UserDetailsService {
 
             String message = String.format(
                     "Здравствуйте, %s! \n" +
-                            "Добро пожаловать на наш сервис MatrixCalc. Пожалуйста, посетите следующую ссылку для подтверждения вашей электронной почты: http://localhost:8080/activate/%s",
+                            "Добро пожаловать на наш сервис MatrixCalc. Пожалуйста, перейдите по следующей ссылке для подтверждения вашей электронной почты: http://localhost:8080/activate/%s",
                     user.getNickname(),
                     user.getActivationCode()
             );
@@ -96,7 +103,7 @@ public class UserService implements UserDetailsService {
             user.setEmail(email);
 
             if (!StringUtils.isEmpty(email)) {
-                user.setActivationCode(UUID.randomUUID().toString());
+                sendMessage(user);
             }
         }
 
@@ -109,9 +116,5 @@ public class UserService implements UserDetailsService {
         }
 
         userRepo.save(user);
-
-        if (isEmailChanged) {
-            sendMessage(user);
-        }
     }
 }
