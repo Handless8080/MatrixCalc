@@ -28,14 +28,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     "/sum-sub-mul",
                                     "/pow-rev-tran",
                                     "/det-rank",
-                                    "/static/**",
+                                    "/js/**",
+                                    "/css/**",
                                     "/favicon.ico",
                                     "/registration",
-                                    "/activate/*"
+                                    "/activate/*",
+                                    "/forum"
                             ).permitAll()
                     .antMatchers
                             (
-                                    "/profile"
+                                    "/profile",
+                                    "/forum/create-theme"
                             ).authenticated()
                     .anyRequest().authenticated()
                 .and()

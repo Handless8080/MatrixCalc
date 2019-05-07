@@ -27,17 +27,17 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="mr-1">Кол-во матриц:</span>
-                    <button type="button" id="btn-matr-count-less" class="btn btn-outline-success btn-sm" style="width: 31px">-</button>
+                    <button type="button" id="btn-matr-count-less" class="btn btn-outline-success btn-sm w-31">-</button>
                 </div>
-                <input type="text" id="matr-count" readonly class="form-control p-1 pl-2" style="width: 31px; height: 31px" value="2">
+                <input type="text" id="matr-count" readonly class="form-control p-1 pl-2 h-31" value="2" style="width: 31px">
                 <div class="input-group-prepend">
-                    <button type="button" id="btn-matr-count-more" class="btn btn-outline-success btn-sm" style="width: 31px">+</button>
+                    <button type="button" id="btn-matr-count-more" class="btn btn-outline-success btn-sm w-31">+</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div style="overflow-x: auto">
+        <div class="oflow-x-auto">
             <table class="table table-bordered table-sm">
                 <thead>
                 <tr id="header" style="display: none">
@@ -103,7 +103,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="d-inline-flex flex-row" style="overflow-x: auto">
+        <div class="d-inline-flex flex-row oflow-x-auto">
             <@d.div id = 0 header = "A" />
             <div id="op0" class="d-inline-flex flex-column p-1">+</div>
             <@d.div id = 1 header = "B" />
@@ -122,13 +122,13 @@
     </div>
 </form>
 <div class="row ml-0 mt-3">
-    <div class="d-inline-flex flex-row" style="overflow-x: auto" id="answer"></div>
+    <div class="d-inline-flex flex-row oflow-x-auto" id="answer"></div>
 </div>
 
-<script src="static/operator.js"></script>
-<script src="static/table.js"></script>
-<script src="static/rows.js"></script>
-<script src="static/cols.js"></script>
-<script src="static/scripts.js"></script>
-<script src="static/show-answer.js"></script>
+<script src="js/operator.js"></script>
+<script src="js/table.js"></script>
+<script src="js/rows.js"></script>
+<script src="js/cols.js"></script>
+<script src="js/scripts.js"></script>
+<script src="js/show-answer.js"></script>
 </@h.head>

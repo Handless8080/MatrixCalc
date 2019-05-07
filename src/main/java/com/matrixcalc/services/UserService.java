@@ -3,7 +3,6 @@ package com.matrixcalc.services;
 import com.matrixcalc.entities.User;
 import com.matrixcalc.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +32,7 @@ public class UserService implements UserDetailsService {
         User user = userRepo.findByUsername(username);
 
         if (user == null) {
-            throw new BadCredentialsException("Логин или пароль введены неверно");
+            throw new UsernameNotFoundException("user not found");
         }
 
         return user;
@@ -54,11 +53,21 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    private boolean isUniqueEmail(String email) {
+        User userByEmail = userRepo.findByEmail(email);
+
+        return userByEmail == null;
+    }
+
     public String addUser(User user, MultipartFile file) throws IOException {
         User userFromDB = userRepo.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
-            return "Такой пользователь уже существует!";
+            return "Пользователь с таким именем уже существует!";
+        }
+
+        if (!StringUtils.isEmpty(user.getEmail()) && !isUniqueEmail(user.getEmail())) {
+            return "Введенная почта уже используется";
         }
 
         user.setInitialParams();
@@ -72,8 +81,6 @@ public class UserService implements UserDetailsService {
             file.transferTo(new File(uploadPath + "/" + resultFileName));
 
             user.setAvatarFileName(resultFileName);
-        } else {
-            user.setAvatarFileName("");
         }
 
         userRepo.save(user);
@@ -93,7 +100,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public void changeUserData(User user, String nickname, String password, String email) {
+    public boolean changeUserData(User user, String nickname, String password, String email) {
         String userEmail = user.getEmail();
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
@@ -102,8 +109,10 @@ public class UserService implements UserDetailsService {
         if (isEmailChanged) {
             user.setEmail(email);
 
-            if (!StringUtils.isEmpty(email)) {
+            if (!StringUtils.isEmpty(email) && isUniqueEmail(email)) {
                 sendMessage(user);
+            } else {
+                return false;
             }
         }
 
@@ -116,5 +125,7 @@ public class UserService implements UserDetailsService {
         }
 
         userRepo.save(user);
+
+        return true;
     }
 }

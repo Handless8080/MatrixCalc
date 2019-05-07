@@ -1,14 +1,9 @@
 const CHAR_CODE = 65;
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('1').addEventListener('click', setOperator);
-    document.getElementById('2').addEventListener('click', setOperator);
-    document.getElementById('3').addEventListener('click', setOperator);
-    document.getElementById('4').addEventListener('click', setOperator);
-    document.getElementById('5').addEventListener('click', setOperator);
-    document.getElementById('6').addEventListener('click', setOperator);
-    document.getElementById('7').addEventListener('click', setOperator);
-    document.getElementById('8').addEventListener('click', setOperator);
+    for (var i = 1; i < 9; i++) {
+        document.getElementById(i).addEventListener('click', setOperator);
+    }
 
     document.getElementById('btn-matr-count-more').addEventListener('click', createTable);
     document.getElementById('btn-matr-count-less').addEventListener('click', deleteTable);

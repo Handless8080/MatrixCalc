@@ -5,6 +5,7 @@ import com.matrixcalc.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -17,19 +18,37 @@ public class ProfileController {
     }
 
     @GetMapping("/profile")
-    public String profile(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("nickname", user.getNickname());
-        model.addAttribute("password", user.getPassword());
-        model.addAttribute("email", user.getEmail());
-
+    public String profile() {
         return "profile";
     }
 
     @PostMapping("/profile")
-    public String changeUserData(@AuthenticationPrincipal User user, String nickname, String password, String email, Model model) {
-        userService.changeUserData(user, nickname, password, email);
+    public String changeUserData(
+            @AuthenticationPrincipal User user,
+            String nickname,
+            String password,
+            String email,
+            Model model
+    ) {
+        if (nickname.length() < 3 || password.length() < 5 || (!StringUtils.isEmpty(email) && !ControllerUtils.validateEmail(email))) {
+            if (nickname.length() < 3) {
+                model.addAttribute("nicknameError", "Длина имени должна быть от 3 до 15");
+            }
+            if (password.length() < 5) {
+                model.addAttribute("passwordError", "Длина пароля должна быть от 5 до 25");
+            }
+            if (!StringUtils.isEmpty(email) && !ControllerUtils.validateEmail(email)) {
+                model.addAttribute("emailError", "Почта указана неверно");
+            }
+        } else {
+            boolean correct = userService.changeUserData(user, nickname, password, email);
 
-        model.addAttribute("message", "Изменения сохранены");
+            if (correct) {
+                model.addAttribute("success", "Изменения сохранены");
+            } else {
+                model.addAttribute("emailError", "Введенная почта уже используется");
+            }
+        }
 
         return "profile";
     }

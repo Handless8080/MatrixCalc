@@ -16,7 +16,6 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
-
     private final UserService userService;
 
     public RegistrationController(UserService userService) {
@@ -33,7 +32,8 @@ public class RegistrationController {
             @Valid User user,
             BindingResult bindingResult,
             Model model,
-            MultipartFile file
+            MultipartFile file,
+            String passwordConfirm
     ) throws IOException {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
@@ -43,6 +43,11 @@ public class RegistrationController {
 
             return "registration";
         } else {
+            if (!user.getPassword().equals(passwordConfirm)){
+                model.addAttribute("passwordConfirmError", "Пароли не совпадают");
+
+                return "registration";
+            }
 
             String result = userService.addUser(user, file);
 

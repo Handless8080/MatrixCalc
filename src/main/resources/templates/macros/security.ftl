@@ -5,10 +5,5 @@
 <#if known>
     <#assign
         user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
-        name = user.getNickname()
-    >
-<#else>
-    <#assign
-        name = "unknown"
     >
 </#if>

@@ -15,14 +15,11 @@ import java.util.Set;
 @Table(name = "usr")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Length(min = 4, max = 15, message = "Длина логина должна быть от 4 до 15")
+    @Length(min = 3, max = 15, message = "Длина логина должна быть от 3 до 15")
     private String username;
-    @Length(min = 4, max = 15, message = "Длина имени должна быть от 4 до 15")
+    @Length(min = 3, max = 15, message = "Длина имени должна быть от 3 до 15")
     private String nickname;
-    @Length(min = 5, max = 20, message = "Длина пароля должна быть от 5 до 20")
+    @Length(min = 5, max = 25, message = "Длина пароля должна быть от 5 до 25")
     private String password;
     private boolean active;
 
@@ -38,7 +35,7 @@ public class User implements UserDetails {
     private int rate;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_nickname"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
@@ -111,14 +108,6 @@ public class User implements UserDetails {
 
     public void setRate(int rate) {
         this.rate = rate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

@@ -9,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav" style="font-size: 14pt">
             <a class="nav-link nav-item text-white" href="/" style="font-weight: ${font1}">Калькулятор</a>
-            <a class="nav-link nav-item text-white" href="#" style="font-weight: ${font2}">Форум</a>
+            <a class="nav-link nav-item text-white" href="/forum" style="font-weight: ${font2}">Форум</a>
         </div>
         <div class="navbar-nav ml-auto">
-            <#if name = "unknown">
+            <#if !user??>
             <a class="nav-link nav-item" href="/login" style="color: lightblue; font-size: 12pt; font-weight: ${font3}">Авторизация</a>
             <#else>
-            <a class="nav-link nav-item ml-3" href="/profile" style="color: lightblue; font-size: 12pt; font-weight: ${font3}">${name}</a>
+            <a class="nav-link nav-item mr-3" href="/profile" style="color: lightblue; font-size: 12pt; font-weight: ${font3}">${user.getNickname()}</a>
             <form action="/logout" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <button class="btn btn-outline-warning ml-3">Выйти</button>
+                <button class="btn btn-outline-warning">Выйти</button>
             </form>
             </#if>
         </div>
