@@ -15,7 +15,7 @@
             <#if !user??>
             <a class="nav-link nav-item" href="/login" style="color: lightblue; font-size: 12pt; font-weight: ${font3}">Авторизация</a>
             <#else>
-            <a class="nav-link nav-item mr-3" href="/profile" style="color: lightblue; font-size: 12pt; font-weight: ${font3}">${user.getNickname()}</a>
+            <a class="nav-link nav-item mr-3" href="/profile" style="color: lightblue; font-size: 12pt; font-weight: ${font3}">${user.getNickname()}#${user.getId()}</a>
             <form action="/logout" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                 <button class="btn btn-outline-warning">Выйти</button>

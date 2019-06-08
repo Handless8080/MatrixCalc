@@ -16,6 +16,10 @@ import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
+    private enum MessageType {
+        ACTIVATE, DEACTIVATE, CHANGE_PASSWORD
+    }
+
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -38,18 +42,37 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    private void sendMessage(User user) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            user.setActivationCode(UUID.randomUUID().toString());
+    private void sendMessage(User user, String email, MessageType messageType) {
+        if (!StringUtils.isEmpty(email)) {
+            String message, code, subject;
+            message = subject = null;
+            code = UUID.randomUUID().toString();
 
-            String message = String.format(
+            switch (messageType) {
+                case ACTIVATE:
+                    message = "Добро пожаловать на наш сервис MatrixCalc. Пожалуйста, перейдите по следующей ссылке для подтверждения вашей электронной почты: http://localhost:8080/activate/";
+                    user.setActivationCode(code);
+                    subject = "Код активации";
+                    break;
+                case DEACTIVATE:
+                    message = "Для смены электронной почты перейдите по следующей ссылке, чтобы сбросить текущую почту: http://localhost:8080/deactivate/";
+                    user.setDeactivationCode(code);
+                    subject = "Код деактивации";
+                    break;
+                case CHANGE_PASSWORD:
+                    message = "Для смены пароля перейдите по следующей ссылке: http://localhost:8080/change-password/";
+                    user.setPasswordChangeCode(code);
+                    subject = "Смена пароля";
+            }
+
+            String msg = String.format(
                     "Здравствуйте, %s! \n" +
-                            "Добро пожаловать на наш сервис MatrixCalc. Пожалуйста, перейдите по следующей ссылке для подтверждения вашей электронной почты: http://localhost:8080/activate/%s",
+                            message + "%s",
                     user.getNickname(),
-                    user.getActivationCode()
+                    code
             );
 
-            mailSender.send(user.getEmail(), "Код активации", message);
+            mailSender.send(email, subject, msg);
         }
     }
 
@@ -72,7 +95,7 @@ public class UserService implements UserDetailsService {
 
         user.setInitialParams();
 
-        sendMessage(user);
+        sendMessage(user, user.getNewEmail(), MessageType.ACTIVATE);
 
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             String uuidFile = UUID.randomUUID().toString();
@@ -81,6 +104,8 @@ public class UserService implements UserDetailsService {
             file.transferTo(new File(uploadPath + "/" + resultFileName));
 
             user.setAvatarFileName(resultFileName);
+        } else {
+            user.setAvatarFileName("default_avatar.png");
         }
 
         userRepo.save(user);
@@ -94,30 +119,69 @@ public class UserService implements UserDetailsService {
             return false;
         }
 
+        if (!StringUtils.isEmpty(user.getEmail()) && !StringUtils.isEmpty(user.getDeactivationCode())) {
+            return false;
+        }
+
         user.setActivationCode(null);
+        user.setEmail(user.getNewEmail());
+        user.setNewEmail("");
         userRepo.save(user);
 
         return true;
     }
 
-    public boolean changeUserData(User user, String nickname, String password, String email) {
+    public boolean deactivateUser(String code) {
+        User user = userRepo.findByDeactivationCode(code);
+
+        if (user == null) {
+            return false;
+        }
+
+        user.setDeactivationCode(null);
+        user.setEmail("");
+        userRepo.save(user);
+
+        return true;
+    }
+
+    public boolean changeUserData(User user, String nickname, String password, String newEmail) {
         String userEmail = user.getEmail();
 
-        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-                (userEmail != null && !userEmail.equals(email));
+        boolean isEmailChanged = (newEmail != null && !newEmail.equals(userEmail)) ||
+                (userEmail != null && !userEmail.equals(newEmail));
 
         if (isEmailChanged) {
-            user.setEmail(email);
+            if (!StringUtils.isEmpty(userEmail)) {
+                sendMessage(user, userEmail, MessageType.DEACTIVATE);
+            }
 
-            if (!StringUtils.isEmpty(email) && isUniqueEmail(email)) {
-                sendMessage(user);
+            if (StringUtils.isEmpty(newEmail)) {
+                if (StringUtils.isEmpty(userEmail)) {
+                    user.setEmail("");
+                } else {
+                    user.setNewEmail("");
+                }
+                userRepo.save(user);
+
+                return true;
+            }
+
+            if (isUniqueEmail(newEmail)) {
+                user.setNewEmail(newEmail);
+                sendMessage(user, newEmail, MessageType.ACTIVATE);
             } else {
                 return false;
             }
         }
 
         if (!StringUtils.isEmpty(password) && !user.getPassword().equals(password)) {
-            user.setPassword(password);
+            if (StringUtils.isEmpty(user.getEmail())) {
+                user.setPassword(password);
+            } else {
+                user.setNewPassword(password);
+                sendMessage(user, user.getEmail(), MessageType.CHANGE_PASSWORD);
+            }
         }
 
         if (!StringUtils.isEmpty(nickname) && !user.getNickname().equals(nickname)) {

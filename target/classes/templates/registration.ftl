@@ -10,7 +10,7 @@
     <div class="row justify-content-center mt-5">
         <#include "macros/alert-danger.ftl">
 
-        <form action="/registration" method="post" enctype="multipart/form-data">
+        <form action="/registration" method="post" enctype="multipart/form-data" class="w-100">
             <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
             <label class="mt-3" for="nickname-input">Никнейм</label>
             <div>
@@ -42,8 +42,10 @@
                     Почта введена некорректно
                 </div>
             </div>
+            <label class="mt-3" for="file-lbl">Аватар</label>
             <div>
-                <input type="file" name="file">
+                <input style="display: none" type="file" name="file" id="file">
+                <label class="btn btn-sm btn-success" for="file" id="file-lbl">Выберите файл</label>
             </div>
             <div>
                 <button class="btn btn-sm btn-primary btn-block mt-3" type="submit" id="btn" disabled>Регистрация</button>

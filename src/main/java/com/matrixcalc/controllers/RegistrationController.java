@@ -74,4 +74,17 @@ public class RegistrationController {
 
         return "login";
     }
+
+    @GetMapping("/deactivate/{code}")
+    private String deactivation(Model model, @PathVariable String code) {
+        boolean isDeactivated = userService.deactivateUser(code);
+
+        if (isDeactivated) {
+            model.addAttribute("success", "Почта успешно отвязана");
+        } else {
+            model.addAttribute("warning", "Код активации не найден");
+        }
+
+        return "login";
+    }
 }

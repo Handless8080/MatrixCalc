@@ -21,4 +21,9 @@ public class ForumController {
 
         return "forum";
     }
+
+    @GetMapping("/forum/theme/*")
+    public String theme() {
+        return "theme-form";
+    }
 }

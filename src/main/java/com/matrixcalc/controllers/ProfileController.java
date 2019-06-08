@@ -43,8 +43,16 @@ public class ProfileController {
         } else {
             boolean correct = userService.changeUserData(user, nickname, password, email);
 
+            StringBuilder message = new StringBuilder("Изменения сохранены");
+            if (!StringUtils.isEmpty(user.getActivationCode()) || !StringUtils.isEmpty(user.getDeactivationCode())) {
+                message.append(". Для подтверждения изменения почты проверьте старую почту, затем новую");
+            }
+            if (!StringUtils.isEmpty(user.getPasswordChangeCode())) {
+                message.append(". Для подтверждения изменения пароля проверьте почту");
+            }
+
             if (correct) {
-                model.addAttribute("success", "Изменения сохранены");
+                model.addAttribute("success", message.toString());
             } else {
                 model.addAttribute("emailError", "Введенная почта уже используется");
             }

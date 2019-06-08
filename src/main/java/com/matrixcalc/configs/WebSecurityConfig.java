@@ -33,7 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     "/favicon.ico",
                                     "/registration",
                                     "/activate/*",
-                                    "/forum"
+                                    "/forum",
+                                    "/forum/theme/*"
                             ).permitAll()
                     .antMatchers
                             (

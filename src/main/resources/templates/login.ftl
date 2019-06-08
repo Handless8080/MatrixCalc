@@ -18,22 +18,25 @@
             <#include "macros/alert-success.ftl">
             <#include "macros/alert-danger.ftl">
 
-            <form action="/login" method="post">
+            <form action="/login" method="post" class="w-100">
                 <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
                 <#include "macros/login-form.ftl">
                 <div>
                     <button class="btn btn-sm btn-primary btn-block mt-3" type="submit" id="btn" disabled>Войти</button>
                 </div>
-                <div class="mt-3 h-line">
-                    <span class="ol-text">
-                        или
-                    </span>
-                </div>
-                <div class="mt-3" style="text-align: center">
-                    <a href="/registration">Создать аккаунт</a>
-                </div>
             </form>
-        </div>
+            <div class="mt-3 h-line">
+                <span class="ol-text">
+                    или
+                </span>
+            </div>
+            <div class="mt-3 t-center">
+                <a href="/registration">Создать аккаунт</a>
+            </div>
+            <div class="mt-3 t-center">
+                <a href="/account-repair">Забыли пароль?</a>
+            </div>
+            </div>
     </div>
 </div>
 

@@ -6,15 +6,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Set;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Length(min = 3, max = 15, message = "Длина логина должна быть от 3 до 15")
     private String username;
     @Length(min = 3, max = 15, message = "Длина имени должна быть от 3 до 15")
@@ -25,22 +26,40 @@ public class User implements UserDetails {
 
     @Email(message = "Почта указана неверно")
     private String email;
+
     private String activationCode;
+    private String deactivationCode;
+    private String passwordChangeCode;
+
+    private String newEmail;
+    private String newPassword;
 
     private String avatarFileName;
 
-    private Date createAccountDate;
+    private String createAccountDate;
     private int themeCount;
     private int messageCount;
     private int rate;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_nickname"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     public String getDate() {
-        return createAccountDate.toString().substring(0, 16);
+        return createAccountDate;
+    }
+
+    public String getPasswordChangeCode() {
+        return passwordChangeCode;
+    }
+
+    public void setPasswordChangeCode(String passwordChangeCode) {
+        this.passwordChangeCode = passwordChangeCode;
+    }
+
+    public boolean isModer() {
+        return  roles.contains(Role.MODER);
     }
 
     public boolean isAdmin() {
@@ -51,7 +70,42 @@ public class User implements UserDetails {
         roles = Collections.singleton(Role.USER);
         active = true;
 
-        createAccountDate = new Date();
+        createAccountDate = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("ru")).format(new Date());
+
+        newEmail = email;
+        email = "";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDeactivationCode() {
+        return deactivationCode;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getNewEmail() {
+        return newEmail;
+    }
+
+    public void setNewEmail(String newEmail) {
+        this.newEmail = newEmail;
+    }
+
+    public void setDeactivationCode(String deactivationCode) {
+        this.deactivationCode = deactivationCode;
     }
 
     public String getAvatarFileName() {
@@ -76,14 +130,6 @@ public class User implements UserDetails {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
-    }
-
-    public Date getCreateAccountDate() {
-        return createAccountDate;
-    }
-
-    public void setCreateAccountDate(Date createAccountDate) {
-        this.createAccountDate = createAccountDate;
     }
 
     public int getThemeCount() {

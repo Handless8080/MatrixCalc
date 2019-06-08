@@ -6,9 +6,10 @@
 
 <div class="border border-secondary rounded p-5 mlr-auto" style="width: 600px">
     <div class="row justify-content-center">
-        <div class="col-auto">
-            <h6>${user.getNickname()}</h6>
-        </div>
+        <h6>${user.getNickname()}</h6>
+    </div>
+    <div class="row justify-content-center">
+        <img src="/images/${user.getAvatarFileName()}" width="200" height="200">
     </div>
     <div class="mt-3 mb-4 h-line">
         <span class="ol-text">
@@ -80,17 +81,10 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="input-group flex-nowrap pt-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text w-90px" id="addon-wrapping-file">Аватар</span>
-                </div>
-
-                <div class="input-group-append">
-                    <label class="btn btn-success">
-                        Выберите файл<input type="file" name="file" hidden>
-                    </label>
-                </div>
+        <div class="row mt-3">
+            <div>
+                <input style="display: none" type="file" name="file" id="file">
+                <label class="btn btn-sm btn-success" for="file" id="file-lbl">Выбрать файл для аватара</label>
             </div>
         </div>
         <div class="row">

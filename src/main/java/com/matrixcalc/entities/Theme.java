@@ -1,6 +1,7 @@
 package com.matrixcalc.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Theme {
@@ -10,9 +11,11 @@ public class Theme {
     private String name;
     private String text;
     private String filePath;
+    private int rate;
+    private String creationDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_username")
+    @JoinColumn(name = "user_id")
     private User author;
 
     public Long getId() {
@@ -54,5 +57,22 @@ public class Theme {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate() {
+        Date date = new Date();
+        this.creationDate = date.toString().substring(0, 16);
     }
 }
