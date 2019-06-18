@@ -53,6 +53,7 @@
     </div>
     <div class="ml-auto p-1" style="background-color: #f9f4de">
         <a class="d-flex flex-row" href="/profile/${message.author.id}" style="font-color: #5dd3f7">${message.author.nickname}#${message.author.id}</a>
+        <span class="d-flex flex-row"><#if message.author.isModer()>Модератор</#if></span>
         <span class="d-flex flex-row">Отправлено: ${message.creationDate}</span>
         <span class="d-flex flex-row">Рейтинг пользователя:<span class="<#if message.author.rate gte 0>text-success<#else>text-danger</#if>">${message.author.rate}</span></span>
     </div>

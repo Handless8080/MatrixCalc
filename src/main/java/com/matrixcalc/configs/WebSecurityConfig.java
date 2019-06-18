@@ -28,7 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     "/profile",
                                     "/forum/create-theme",
                                     "/change-theme-rate/*",
-                                    "change-message-rate/*"
+                                    "/change-message-rate/*",
+                                    "/change-moder/*",
+                                    "/block-user/*"
                             ).authenticated()
                     .antMatchers
                             ("/",

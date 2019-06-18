@@ -63,10 +63,10 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/{id}")
-    public String showUserProfile(@PathVariable Long id, Model model) {
+    public String showUserProfile(@PathVariable Long id, @AuthenticationPrincipal User currentUser, Model model) {
         User user = userService.getUserById(id);
 
-        if (user != null) {
+        if (currentUser == null || !user.getId().equals(currentUser.getId())) {
             model.addAttribute("u", user);
         }
 

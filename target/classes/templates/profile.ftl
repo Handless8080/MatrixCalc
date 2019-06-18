@@ -7,10 +7,31 @@
 <#if !user?? && !u??>
 <h3>Пользователь не найден</h3>
 <#else>
+<input type="hidden" name="_csrf" id="csrf_" value="${_csrf.token}">
 <div class="border border-secondary rounded p-5 mlr-auto" style="width: 600px">
     <div class="row justify-content-center">
         <h6><#if u??>${u.getNickname()}<#else>${user.getNickname()}</#if></h6>
+        <#if (u?? && u.isModer()) || (user?? && user.isModer())>
+        <h6>(модератор)</h6>
+        </#if>
+        <#if u?? && !u.isActive()>
+        <h6>(заблокирован)</h6>
+        </#if>
     </div>
+    <#if user?? && user.isAdmin()>
+    <div class="row justify-content-center">
+        <#if user.isAdmin() && u??>
+        <input type="hidden" id="user_id" value="${u.id}">
+        <button type="button" class="btn btn-success mt-1 mb-1" id="change-moder"><#if u.isModer()>Отобрать права модератора<#else>Дать права модератора</#if></button>
+        </#if>
+        <#if (user.isAdmin() || user.isModer()) && u??>
+        <form action="/block-user/${u.id}" method="post">
+            <input type="hidden" name="_csrf" value="${_csrf.token}">
+            <button type="submit" class="btn btn-success mt-1 mb-1 ml-1"><#if u.isActive()>Заблокировать<#else>Разблокировать</#if></button>
+        </form>
+        </#if>
+    </div>
+    </#if>
     <div class="row justify-content-center">
         <img src="/images/<#if u??>${u.getAvatarFileName()}<#else>${user.getAvatarFileName()}</#if>" width="200" height="200">
     </div>
@@ -102,5 +123,8 @@
 <#if user??>
 <script src="../js/user-valid.js"></script>
 <script src="../js/validation.js"></script>
+<#if user.isAdmin()>
+<script src="../js/moderation.js"></script>
+</#if>
 </#if>
 </@h.head>
