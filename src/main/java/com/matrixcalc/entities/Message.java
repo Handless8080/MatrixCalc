@@ -1,32 +1,39 @@
 package com.matrixcalc.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 @Entity
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String text;
-    private String tag;
+    private int rate;
+    private String creationDate;
+    private String filePath;
 
-    public Message() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theme_id")
+    private Theme theme;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    public void setCreationDate() {
+        creationDate = DateFormat.getDateInstance(SimpleDateFormat.LONG, new Locale("ru")).format(new Date());
     }
 
-    public Message(String text, String tag) {
-        this.text = text;
-        this.tag = tag;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -38,11 +45,39 @@ public class Message {
         this.text = text;
     }
 
-    public String getTag() {
-        return tag;
+    public int getRate() {
+        return rate;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
     }
 }

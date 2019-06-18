@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav" style="font-size: 14pt">
             <a class="nav-link nav-item text-white" href="/" style="font-weight: ${font1}">Калькулятор</a>
-            <a class="nav-link nav-item text-white" href="/forum" style="font-weight: ${font2}">Форум</a>
+            <a class="nav-link nav-item text-white" href="/forum/alg" style="font-weight: ${font2}">Форум</a>
         </div>
         <div class="navbar-nav ml-auto">
             <#if !user??>

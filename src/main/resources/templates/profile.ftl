@@ -4,12 +4,15 @@
 
 <@h.head header = "Профиль" font1 = "normal" font2 = "normal" font3 = "bold">
 
+<#if !user?? && !u??>
+<h3>Пользователь не найден</h3>
+<#else>
 <div class="border border-secondary rounded p-5 mlr-auto" style="width: 600px">
     <div class="row justify-content-center">
-        <h6>${user.getNickname()}</h6>
+        <h6><#if u??>${u.getNickname()}<#else>${user.getNickname()}</#if></h6>
     </div>
     <div class="row justify-content-center">
-        <img src="/images/${user.getAvatarFileName()}" width="200" height="200">
+        <img src="/images/<#if u??>${u.getAvatarFileName()}<#else>${user.getAvatarFileName()}</#if>" width="200" height="200">
     </div>
     <div class="mt-3 mb-4 h-line">
         <span class="ol-text">
@@ -17,17 +20,18 @@
         </span>
     </div>
     <div class="row">
-        Дата создания аккаунта: ${user.getDate()}
+        Дата создания аккаунта: <#if u??>${u.getDate()}<#else>${user.getDate()}</#if>
     </div>
     <div class="row">
-        Кол-во созданных тем: ${user.getThemeCount()}
+        Кол-во созданных тем: <#if u??>${u.getThemeCount()}<#else>${user.getThemeCount()}</#if>
     </div>
     <div class="row">
-        Кол-во отправленных сообщений: ${user.getMessageCount()}
+        Кол-во отправленных сообщений: <#if u??>${u.getMessageCount()}<#else>${user.getMessageCount()}</#if>
     </div>
     <div class="row">
-        Рейтинг пользователя: ${user.getRate()}
+        Рейтинг пользователя: <#if u??>${u.getRate()}<#else>${user.getRate()}</#if>
     </div>
+    <#if !u??>
     <div class="mt-3 mb-4 h-line">
         <span class="ol-text">
             Личные данные
@@ -91,8 +95,12 @@
             <button class="btn btn-sm btn-primary mt-3" type="submit" id="btn" disabled>Сохранить</button>
         </div>
     </form>
+    </#if>
 </div>
+</#if>
 
+<#if user??>
 <script src="../js/user-valid.js"></script>
 <script src="../js/validation.js"></script>
+</#if>
 </@h.head>

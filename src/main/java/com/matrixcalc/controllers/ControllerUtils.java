@@ -26,4 +26,18 @@ class ControllerUtils {
 
         return matcher.matches();
     }
+
+    static boolean validateThemeCategory(String category) {
+        switch (category) {
+            case "Алгебра":
+            case "Линейная алгебра":
+            case "Геометрия":
+            case "Дискретная математика":
+            case "Теория вероятностей":
+            case "Математическая статистика":
+                return true;
+        }
+        
+        return false;
+    }
 }

@@ -192,4 +192,8 @@ public class UserService implements UserDetailsService {
 
         return true;
     }
+
+    public User getUserById(Long id) {
+        return userRepo.findById(id).get();
+    }
 }

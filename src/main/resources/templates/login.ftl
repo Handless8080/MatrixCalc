@@ -33,10 +33,7 @@
             <div class="mt-3 t-center">
                 <a href="/registration">Создать аккаунт</a>
             </div>
-            <div class="mt-3 t-center">
-                <a href="/account-repair">Забыли пароль?</a>
-            </div>
-            </div>
+        </div>
     </div>
 </div>
 

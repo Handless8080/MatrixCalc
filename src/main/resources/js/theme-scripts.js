@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     for (var i = 0; i < 6; i++) {
         document.getElementById(i).addEventListener('click', setCategory);
     }
+
+    document.getElementById('category-value').value = document.getElementById('categories').innerHTML;
 });
 
 function setCategory() {

@@ -3,7 +3,9 @@
 >
 
 <#if known>
-    <#assign
-        user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
-    >
+    <#if Session.SPRING_SECURITY_CONTEXT.authentication.authenticated>
+        <#assign
+            user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
+        >
+    </#if>
 </#if>

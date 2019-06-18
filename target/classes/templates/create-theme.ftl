@@ -21,15 +21,15 @@
 </div>
 <form action="/forum/create-theme" method="post" enctype="multipart/form-data">
     <div class="row rounded mt-3 ml-5 mr-5">
-        <input class="form-control border border-secondary" placeholder="Название темы" onkeyup="listenerForName()"
-               maxlength="30" id="name" name="name">
+        <input class="form-control border border-secondary ${(nameError??)?string('is-invalid','')}" placeholder="Название темы" onkeyup="listenerForName()"
+               maxlength="30" id="name" name="name" value="<#if theme??>${theme.name}</#if>">
         <div class="invalid-feedback">
             Недопустимая длина (от 5 до 30 символов)
         </div>
     </div>
     <div class="row rounded mt-3 ml-5 mr-5">
-        <textarea class="form-control border border-secondary w-100" rows="15" style="resize: none" name="text"
-                  placeholder="Сообщение темы" onkeyup="listenerForText()" maxlength="250" id="text"></textarea>
+        <textarea class="form-control border border-secondary w-100 ${(textError??)?string('is-invalid','')}" rows="15" style="resize: none" name="text"
+                  placeholder="Сообщение темы" onkeyup="listenerForText()" maxlength="250" id="text"><#if theme??>${theme.text}</#if></textarea>
         <div class="invalid-feedback">
             Недопустимая длина (от 10 до 250 символов)
         </div>

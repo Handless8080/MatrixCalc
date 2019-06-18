@@ -24,6 +24,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers
+                            (
+                                    "/profile",
+                                    "/forum/create-theme",
+                                    "/change-theme-rate/*",
+                                    "change-message-rate/*"
+                            ).authenticated()
+                    .antMatchers
                             ("/",
                                     "/sum-sub-mul",
                                     "/pow-rev-tran",
@@ -33,14 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     "/favicon.ico",
                                     "/registration",
                                     "/activate/*",
-                                    "/forum",
-                                    "/forum/theme/*"
+                                    "/forum/*",
+                                    "/forum/*/filter",
+                                    "/forum/theme/*",
+                                    "/profile/*",
+                                    "/images/*"
                             ).permitAll()
-                    .antMatchers
-                            (
-                                    "/profile",
-                                    "/forum/create-theme"
-                            ).authenticated()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
