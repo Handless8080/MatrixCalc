@@ -52,5 +52,5 @@
     </div>
 </div>
 
-<script src="../js/change-category.js"></script>
+<script src="../../js/change-category.js"></script>
 </@h.head>

@@ -14,20 +14,20 @@
 <div class="border border-secondary rounded p-5 mlr-auto" style="width: 600px">
     <div class="row justify-content-center">
         <h6><#if u??>${u.getNickname()}<#else>${user.getNickname()}</#if></h6>
-        <#if (u?? && u.isModer()) || (user?? && user.isModer())>
+        <#if (u?? && u.isModer()) || (!u?? && user?? && user.isModer())>
         <h6>(модератор)</h6>
         </#if>
         <#if u?? && !u.isActive()>
         <h6>(заблокирован)</h6>
         </#if>
     </div>
-    <#if user?? && user.isAdmin()>
+    <#if user?? && !user.isUser()>
     <div class="row justify-content-center">
         <#if user.isAdmin() && u??>
         <input type="hidden" id="user_id" value="${u.id}">
         <button type="button" class="btn btn-success mt-1 mb-1" id="change-moder"><#if u.isModer()>Отобрать права модератора<#else>Дать права модератора</#if></button>
         </#if>
-        <#if (user.isAdmin() || user.isModer()) && u??>
+        <#if !user.isUser() && u??>
         <form action="/block-user/${u.id}" method="post">
             <input type="hidden" name="_csrf" value="${_csrf.token}">
             <button type="submit" class="btn btn-success mt-1 mb-1 ml-1"><#if u.isActive()>Заблокировать<#else>Разблокировать</#if></button>
@@ -36,7 +36,7 @@
     </div>
     </#if>
     <div class="row justify-content-center">
-        <img src="/images/<#if u??>${u.getAvatarFileName()}<#else>${user.getAvatarFileName()}</#if>" width="200" height="200">
+        <img src="/images/<#if u??>${u.getAvatarFileName()}<#else>${user.getAvatarFileName()}</#if>" height="200">
     </div>
     <div class="mt-3 mb-4 h-line">
         <span class="ol-text">
