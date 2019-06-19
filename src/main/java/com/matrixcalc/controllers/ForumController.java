@@ -61,13 +61,16 @@ public class ForumController {
 
     @PostMapping("/forum/{category}/filter")
     public String getThemesByFilter(@PathVariable String category, String filter, Model model){
+        List<Theme> themes;
         if (!StringUtils.isEmpty(filter)){
-            List<Theme> themes = themeService.getThemesByFilter(themeService.getThemeByUrl(category), filter);
+            themes = themeService.getThemesByFilter(themeService.getThemeByUrl(category), filter);
 
-            model.addAttribute("themes", themes);
-            model.addAttribute("category", category);
             model.addAttribute("filter", filter);
+        } else {
+            themes = themeService.getThemes(themeService.getThemeByUrl(category));
         }
+        model.addAttribute("themes", themes);
+        model.addAttribute("category", category);
 
         return "forum";
     }

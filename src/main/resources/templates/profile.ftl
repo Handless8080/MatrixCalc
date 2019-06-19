@@ -7,6 +7,9 @@
 <#if !user?? && !u??>
 <h3>Пользователь не найден</h3>
 <#else>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.1/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.1/cropper.js"></script>
+
 <input type="hidden" name="_csrf" id="csrf_" value="${_csrf.token}">
 <div class="border border-secondary rounded p-5 mlr-auto" style="width: 600px">
     <div class="row justify-content-center">
@@ -64,7 +67,7 @@
     <div class="row">
         Имя пользователя: ${user.getUsername()}
     </div>
-    <form action="/profile" method="post">
+    <form action="/profile" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
         <div class="row">
             <div class="input-group pt-3">
@@ -109,7 +112,7 @@
         <div class="row mt-3">
             <div>
                 <input style="display: none" type="file" name="file" id="file">
-                <label class="btn btn-sm btn-success" for="file" id="file-lbl">Выбрать файл для аватара</label>
+                <label class="btn btn-sm btn-success" for="file" id="file-lbl" onclick="validFile()">Выбрать файл для аватара</label>
             </div>
         </div>
         <div class="row">
@@ -124,7 +127,7 @@
 <script src="../js/user-valid.js"></script>
 <script src="../js/validation.js"></script>
 <#if user.isAdmin()>
-<script src="../js/moderation.js"></script>
+<script src="../js/user-moderation.js"></script>
 </#if>
 </#if>
 </@h.head>

@@ -48,6 +48,11 @@ function validEmail() {
     valid();
 }
 
+function validFile() {
+    var button = document.getElementById('btn');
+    button.disabled = false;
+}
+
 function valid() {
     var username = document.getElementById('username-input'),
         nickname = document.getElementById('nickname-input'),
@@ -73,8 +78,8 @@ function valid() {
 
     if (username.value.length < minForName || nickname.value.length < minForName || password.value.length < minForPassword ||
             password.value != passwordConfirm.value || (email && email.value != '' && !regexp.test(email.value))) {
-        btn.disabled = true;
+        button.disabled = true;
     } else {
-        btn.disabled = false;
+        button.disabled = false;
     }
 }

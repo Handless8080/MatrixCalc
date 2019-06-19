@@ -9,6 +9,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class ProfileController {
@@ -29,8 +32,9 @@ public class ProfileController {
             String nickname,
             String password,
             String email,
+            MultipartFile file,
             Model model
-    ) {
+    ) throws IOException {
         if (nickname.length() < 3 || password.length() < 5 || (!StringUtils.isEmpty(email) && !ControllerUtils.validateEmail(email))) {
             if (nickname.length() < 3) {
                 model.addAttribute("nicknameError", "Длина имени должна быть от 3 до 15");
@@ -42,7 +46,7 @@ public class ProfileController {
                 model.addAttribute("emailError", "Почта указана неверно");
             }
         } else {
-            boolean correct = userService.changeUserData(user, nickname, password, email);
+            boolean correct = userService.changeUserData(user, nickname, password, email, file);
 
             StringBuilder message = new StringBuilder("Изменения сохранены");
             if (!StringUtils.isEmpty(user.getActivationCode()) || !StringUtils.isEmpty(user.getDeactivationCode())) {

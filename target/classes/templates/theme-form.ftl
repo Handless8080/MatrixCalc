@@ -2,6 +2,7 @@
 
 <@h.head font1 = "normal" font2 = "normal" font3 = "normal" header = "Форум">
 <#if theme??>
+<#include "macros/security.ftl">
 <div class="row">
     <h3>${theme.name}</h3>
 </div>
@@ -26,6 +27,12 @@
         <a class="d-flex flex-row" href="/profile/${theme.author.id}" style="font-color: #5dd3f7">${theme.author.nickname}#${theme.author.id}</a>
         <span class="d-flex flex-row">Отправлено: ${theme.creationDate}</span>
         <span class="d-flex flex-row">Рейтинг пользователя:<span class="<#if theme.author.rate gte 0>text-success<#else>text-danger</#if>">${theme.author.rate}</span></span>
+        <#if user?? && !user.isUser()>
+        <form action="/delete-theme/${theme.id}" method="post">
+            <input type="hidden" name="_csrf" value="${_csrf.token}">
+            <button type="submit" class="btn btn-danger">Удалить тему</button>
+        </form>
+        </#if>
     </div>
     <input type="hidden" value="${theme.id}" id="theme-id">
 </div>
@@ -35,7 +42,7 @@
     </h4>
 </div>
 <#list theme.messages as message>
-<div class="row border border-secondary rounded p-3">
+<div class="row border border-secondary rounded p-3" id="div${message.id}">
     <div class="col-auto">
         <div class="input-group">
             <div class="input-group-prepend">
@@ -53,15 +60,15 @@
     </div>
     <div class="ml-auto p-1" style="background-color: #f9f4de">
         <a class="d-flex flex-row" href="/profile/${message.author.id}" style="font-color: #5dd3f7">${message.author.nickname}#${message.author.id}</a>
-        <span class="d-flex flex-row"><#if message.author.isModer()>Модератор</#if></span>
+        <span class="d-flex flex-row"><#if message.author.isModer()>(модератор)</#if></span>
         <span class="d-flex flex-row">Отправлено: ${message.creationDate}</span>
         <span class="d-flex flex-row">Рейтинг пользователя:<span class="<#if message.author.rate gte 0>text-success<#else>text-danger</#if>">${message.author.rate}</span></span>
+        <#if user?? && !user.isUser()>
+        <button type="button" class="btn btn-danger" id="${message.id}" name="message-delete-btn">Удалить сообщение</button>
+        </#if>
     </div>
 </div>
 </#list>
-<#else>
-<h3>Тема не найдена</h3>
-</#if>
 <form action="/forum/theme/${theme.id}" method="post">
     <input type="hidden" name="_csrf" id="csrf" value="${_csrf.token}">
     <div class="div-bottom d-flex flex-row">
@@ -73,6 +80,12 @@
         <button type="submit" class="btn btn-success">Отправить</button>
     </div>
 </form>
+<#else>
+<h3>Тема не найдена</h3>
+</#if>
 
 <script src="../../js/rate.js"></script>
+<#if user?? && !user.isUser()>
+<script src="../../js/theme-moderation.js"></script>
+</#if>
 </@h.head>

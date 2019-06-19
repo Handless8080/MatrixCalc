@@ -57,6 +57,7 @@ public class RegistrationController {
             }
 
             model.addAttribute("success", "Аккаунт успешно создан");
+            model.addAttribute("user", null);
 
             return "login";
         }

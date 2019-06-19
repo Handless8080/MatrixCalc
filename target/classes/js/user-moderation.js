@@ -10,7 +10,9 @@ moder_xhr.onreadystatechange = function() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('change-moder').addEventListener('click', changeModer);
+    if (document.getElementById('change-moder')) {
+        document.getElementById('change-moder').addEventListener('click', changeModer);
+    }
 });
 
 function changeModer() {

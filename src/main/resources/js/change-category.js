@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (url == link1.href) {
         return;
     }
+
     link1.classList.remove('btn-dark', 'text-light');
     link1.classList.add('btn-outline-dark');
 
@@ -17,4 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
     }
+
+    link1.classList.add('btn-dark', 'text-light');
+    link1.classList.remove('btn-outline-dark');
 });

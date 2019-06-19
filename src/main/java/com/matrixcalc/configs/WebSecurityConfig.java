@@ -30,7 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                     "/change-theme-rate/*",
                                     "/change-message-rate/*",
                                     "/change-moder/*",
-                                    "/block-user/*"
+                                    "/block-user/*",
+                                    "/delete-theme/*",
+                                    "/delete-message/*"
                             ).authenticated()
                     .antMatchers
                             ("/",

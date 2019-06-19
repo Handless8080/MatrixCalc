@@ -145,7 +145,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public boolean changeUserData(User user, String nickname, String password, String newEmail) {
+    public boolean changeUserData(User user, String nickname, String password, String newEmail, MultipartFile file) throws IOException {
         String userEmail = user.getEmail();
 
         boolean isEmailChanged = (newEmail != null && !newEmail.equals(userEmail)) ||
@@ -186,6 +186,20 @@ public class UserService implements UserDetailsService {
 
         if (!StringUtils.isEmpty(nickname) && !user.getNickname().equals(nickname)) {
             user.setNickname(nickname);
+        }
+
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            String resultFileName;
+            if (user.getAvatarFileName().equals("default_avatar.png")) {
+                String uuidFile = UUID.randomUUID().toString();
+                resultFileName = uuidFile + "." + file.getOriginalFilename();
+            } else {
+                resultFileName = user.getAvatarFileName();
+            }
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+
+            user.setAvatarFileName(resultFileName);
         }
 
         userRepo.save(user);
